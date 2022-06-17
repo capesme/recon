@@ -1,0 +1,29 @@
+name: recon
+version: '${project.version}'
+main: net.voxfun.vox.recon.index
+api-version: 1.18
+authors:
+  - Ella
+  - Iris
+website: voxfun.net
+commands:
+  reloadDb:
+    description: Reloads the database
+    usage: reloadDb
+    permission: recon.reloaddb
+    permission-message: You do not have permission to use this command.
+  game:
+    description: starts the game
+    usage: game (start | restart | end)
+    permission: recon.mod
+    permission-message: You do not have permission to use this command.
+  vote:
+    description: Votes for a specified map
+    usage: vote <map>
+permissions:
+  coitc.reloaddb:
+    description: Can reload the database.
+    default: op
+  coitc.mod:
+    description: mod
+    default: op
