@@ -33,14 +33,16 @@ public class onJoin implements Listener {
         player.setSaturation(player.getSaturation() + 100);
         player.setHealth(20d);
         player.setFoodLevel(20);
-        player.setGameMode(GameMode.ADVENTURE);
-        player.teleport(new Location(player.getWorld(),216, 40, -41));
+        player.getInventory().clear();
+        player.setLevel(0);
+        player.teleport(new Location(player.getWorld(),215.5, 40, -47));
         event.setJoinMessage("");
         String formatted = FormatBroadcast.format(String.format("%s joined the lobby", event.getPlayer().getName()));
         if (gameManager.getGameState() == GameState.ACTIVE) {
             ScoreboardManager.addPlayer(event.getPlayer());
             event.getPlayer().sendMessage(formatted);
             event.getPlayer().sendMessage("There is a game currently active, please wait until it ends.");
+            event.getPlayer().setGameMode(GameMode.SPECTATOR);
         } else if (gameManager.getGameState() == GameState.LOBBY) {
             Map<String, Document> maps = MapManager.getMaps();
             maps.forEach((mapName, doc) -> {
@@ -48,6 +50,7 @@ public class onJoin implements Listener {
                 textComponent.setText(FormatBroadcast.format(String.format("Vote for %s", ChatColor.GREEN + mapName)));
                 textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/vote " + mapName));
                 player.spigot().sendMessage(textComponent);
+                player.setGameMode(GameMode.ADVENTURE);
             });
             Bukkit.broadcastMessage(formatted);
         }

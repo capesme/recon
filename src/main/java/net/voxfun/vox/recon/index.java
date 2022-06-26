@@ -31,6 +31,7 @@ public final class index extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onJoin(gameManager), this);
         getServer().getPluginManager().registerEvents(new onLeave(gameManager), this);
         getServer().getPluginManager().registerEvents(new ShotArrowListener(gameManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteractListener(gameManager), this);
 
         new InGameStatsManager(gameManager);
 
@@ -42,6 +43,7 @@ public final class index extends JavaPlugin {
 
         new DontHurtEntity();
         new DontInteractBlockArrow();
+        new allowedInteractionBlockList();
 
         if (config.get("database") == null) {
             config.addDefault("database", "null");
@@ -75,11 +77,11 @@ public final class index extends JavaPlugin {
 
 // - vote stuff - OK
 // - spectator chat
-// - Move starting countdown above the hotbar
+// - Move starting countdown above the hotbar - OK
 // - no one alive, end the game - OK
 // - reset scoreboard - OK
 // - game setting to interact with entities.
-// - disallowedBlockInteractions: ["*"], ["OAK_DOOR"]
+// - disallowedBlockInteractions: ["*"], ["OAK_DOOR"] - OK .. somewhat
 // - custom game time - OK
 // - fix tied games
 // - kill streaks - OK .. somewhat

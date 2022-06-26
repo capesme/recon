@@ -2,6 +2,7 @@ package net.voxfun.vox.recon.manager;
 
 import net.voxfun.vox.recon.index;
 import net.voxfun.vox.recon.listners.DamagedListener;
+import net.voxfun.vox.recon.listners.PlayerInteractListener;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import net.voxfun.vox.recon.mod.GenerateId;
 import net.voxfun.vox.recon.tasks.GameEndCountdownTask;
@@ -16,6 +17,7 @@ import org.bson.json.JsonObject;
 import org.bson.types.ObjectId;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -30,6 +32,7 @@ public class GameManager {
     private static GameStartCountdownTask gameStartCountdownTask;
     private static GameMatchCountdownTask gameMatchCountdownTask;
     private static GameEndCountdownTask gameEndCountdownTask;
+    private static PlayerInteractEvent playerInteractEvent;
     public String activeGameId = null;
 
     public GameManager(index plugin) {
@@ -145,6 +148,12 @@ public class GameManager {
                     teamF.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
                 }
             }
+            //if (setting.containsKey("ALLOWED_INTERACTED_BLOCKS")) {
+            //    if (setting.get("ALLOWED_INTERACTED_BLOCKS").toString().contains("OAK_DOOR")) {
+            //        List<Object> allowedBlockInteractions = new ArrayList<>();
+            //        allowedBlockInteractions.add(Material.OAK_DOOR);
+            //    }
+            //}
         });
         List<Object> playerDocumentF = new ArrayList<>();
         Bukkit.getOnlinePlayers().forEach(player -> {

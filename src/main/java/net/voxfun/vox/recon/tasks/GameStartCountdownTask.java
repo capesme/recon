@@ -4,6 +4,9 @@ import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameStartCountdownTask extends BukkitRunnable {
@@ -26,8 +29,16 @@ public class GameStartCountdownTask extends BukkitRunnable {
         if (timeLeft <= 0) {
             cancel();
             gameManager.setGameState(GameState.ACTIVE);
+            Bukkit.getOnlinePlayers().forEach(player -> player.setLevel(0));
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 0);
+            });
             return;
         }
-        Bukkit.broadcastMessage(FormatBroadcast.format(timeLeft + " until game starts!"));
+        //Bukkit.broadcastMessage(FormatBroadcast.format(timeLeft + " until game starts!"));
+        Bukkit.getOnlinePlayers().forEach(player -> player.setLevel(timeLeft));
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
+        });
     }
 }
