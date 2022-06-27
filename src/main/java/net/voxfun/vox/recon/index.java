@@ -43,7 +43,6 @@ public final class index extends JavaPlugin {
 
         new DontHurtEntity();
         new DontInteractBlockArrow();
-        new allowedInteractionBlockList();
 
         if (config.get("database") == null) {
             config.addDefault("database", "null");
@@ -69,6 +68,7 @@ public final class index extends JavaPlugin {
         database = mongoClient.getDatabase("capesme");
         MapManager.reloadMaps();
         GameManager.cleanup();
+        allowedInteractionBlockList.reload();
     }
 
     @Override

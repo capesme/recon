@@ -6,7 +6,7 @@
 
     <groupId>net.voxfun.vox</groupId>
     <artifactId>recon</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
     <packaging>jar</packaging>
 
     <name>recon</name>

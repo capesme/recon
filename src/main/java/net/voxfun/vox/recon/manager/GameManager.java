@@ -1,26 +1,24 @@
 package net.voxfun.vox.recon.manager;
 
-import net.voxfun.vox.recon.index;
-import net.voxfun.vox.recon.listners.DamagedListener;
-import net.voxfun.vox.recon.listners.PlayerInteractListener;
-import net.voxfun.vox.recon.mod.FormatBroadcast;
-import net.voxfun.vox.recon.mod.GenerateId;
-import net.voxfun.vox.recon.tasks.*;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.voxfun.vox.recon.index;
+import net.voxfun.vox.recon.listners.DamagedListener;
+import net.voxfun.vox.recon.mod.FormatBroadcast;
+import net.voxfun.vox.recon.mod.GenerateId;
+import net.voxfun.vox.recon.tasks.*;
 import org.bson.Document;
 import org.bson.json.JsonObject;
 import org.bson.types.ObjectId;
 import org.bukkit.*;
-import org.bukkit.command.CommandExecutor;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.io.Console;
 import java.util.*;
 
 public class GameManager {
@@ -153,7 +151,6 @@ public class GameManager {
 
             return;
         }
-
     }
 
     private void startGame(Boolean forced) {
@@ -176,12 +173,7 @@ public class GameManager {
                     teamF.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
                 }
             }
-            //if (setting.containsKey("ALLOWED_INTERACTED_BLOCKS")) {
-            //    if (setting.get("ALLOWED_INTERACTED_BLOCKS").toString().contains("OAK_DOOR")) {
-            //        List<Object> allowedBlockInteractions = new ArrayList<>();
-            //        allowedBlockInteractions.add(Material.OAK_DOOR);
-            //    }
-            //}
+            if (setting.containsKey("ALLOWED_INTERACTED_BLOCKS")) { new allowedInteractionBlockList(setting.getList("ALLOWED_INTERACTED_BLOCKS", String.class)); }
         });
         List<Object> playerDocumentF = new ArrayList<>();
         Bukkit.getOnlinePlayers().forEach(player -> {
@@ -260,14 +252,11 @@ public class GameManager {
                 player.sendMessage(String.format("Totalling over %s xp.", xp));
                 games.updateOne(query, new BasicDBObject("$set", updateFields));
             }
-            Bukkit.getLogger().info(winners.stream().map(player -> player.getName()).toString());
+            winners.stream().map(HumanEntity::getName).forEach(player -> Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s has won the game", player))));
         } else {
             Bukkit.broadcastMessage(FormatBroadcast.format("No one won the game!"));
         }
-        games.updateOne(
-                new Document("id", activeGameId),
-                new BasicDBObject("$set", new BasicDBObject("status", "finished").append("finishedOn", new Date()))
-        );
+        games.updateOne(new Document("id", activeGameId), new BasicDBObject("$set", new BasicDBObject("status", "finished").append("finishedOn", new Date())));
         Team team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("game_setting_" + activeGameId);
         if (team != null) { team.unregister(); }
         if (forced) {
