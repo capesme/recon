@@ -31,12 +31,13 @@ public class PreGameStartCountdownTask extends BukkitRunnable {
         if (playersAmount >= 2 && preGameTime == 60 && gameManager.getGameState() == GameState.WAITING) {
             Bukkit.broadcastMessage(FormatBroadcast.format(preGameTime + " seconds until teleportation!"));
         }
-            preGameTime--;
-        if (playersAmount >= 2 && preGameTime == 0 && gameManager.getGameState() == GameState.WAITING) {
-            Bukkit.broadcastMessage(FormatBroadcast.format("You're being teleported to the map!"));
+
+        if (preGameTime <= 1) {
             gameManager.setGameState(GameState.STARTING);
+            Bukkit.broadcastMessage(FormatBroadcast.format("You're being teleported!"));
         }
 
+            preGameTime--;
         Bukkit.getOnlinePlayers().forEach(player -> player.setLevel(preGameTime));
     }
 }
