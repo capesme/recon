@@ -5,9 +5,7 @@ import net.voxfun.vox.recon.listners.DamagedListener;
 import net.voxfun.vox.recon.listners.PlayerInteractListener;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import net.voxfun.vox.recon.mod.GenerateId;
-import net.voxfun.vox.recon.tasks.GameEndCountdownTask;
-import net.voxfun.vox.recon.tasks.GameMatchCountdownTask;
-import net.voxfun.vox.recon.tasks.GameStartCountdownTask;
+import net.voxfun.vox.recon.tasks.*;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -16,11 +14,13 @@ import org.bson.Document;
 import org.bson.json.JsonObject;
 import org.bson.types.ObjectId;
 import org.bukkit.*;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.io.Console;
 import java.util.*;
 
 public class GameManager {
@@ -33,6 +33,8 @@ public class GameManager {
     private static GameMatchCountdownTask gameMatchCountdownTask;
     private static GameEndCountdownTask gameEndCountdownTask;
     private static PlayerInteractEvent playerInteractEvent;
+    private static PreGameStartCountdownTask preGameStartCountdownTask;
+    private static LobbyCheck lobbyCheck;
     public String activeGameId = null;
 
     public GameManager(index plugin) {
@@ -52,6 +54,11 @@ public class GameManager {
         });
         switch (gameState) {
             case LOBBY:
+                if (getGameState() == GameState.LOBBY); {
+                lobbyCheck = new LobbyCheck(this);
+                lobbyCheck.runTaskTimer(plugin, 5, 40);
+            }
+
                 MapManager.reloadMaps();
                 Map<String, Document> maps = MapManager.getMaps();
                 Bukkit.getWorlds().forEach(world -> world.setDifficulty(Difficulty.EASY));
@@ -67,6 +74,10 @@ public class GameManager {
                     Bukkit.spigot().broadcast(textComponent);
                 });
                 ScoreboardManager.clear();
+                Bukkit.getOnlinePlayers().forEach(player -> player.setLevel(0));
+                break;
+            case WAITING:
+                preGameStart(false);
                 break;
             case ACTIVE:
                 Bukkit.broadcastMessage(FormatBroadcast.format("Game has started!"));
@@ -85,6 +96,7 @@ public class GameManager {
                 break;
             case FORCED_START:
                 startGame(true);
+                Bukkit.getOnlinePlayers().forEach(player -> player.setLevel(0));
                 break;
             case FORCED_END:
                 endGame(true);
@@ -110,6 +122,10 @@ public class GameManager {
             gameMatchCountdownTask.cancel();
             gameMatchCountdownTask = null;
         }
+        if (preGameStartCountdownTask != null) {
+            preGameStartCountdownTask.cancel();
+            preGameStartCountdownTask = null;
+        }
 
         playerManager.clearKits(true);
 
@@ -128,6 +144,18 @@ public class GameManager {
         }
     }
     public BlockManager getBlockManager() { return blockManager; }
+
+
+    private void preGameStart(Boolean forced) {
+        if (Bukkit.getOnlinePlayers().size() > 1 && gameState.equals(GameState.WAITING)) {
+            preGameStartCountdownTask = new PreGameStartCountdownTask(this);
+            preGameStartCountdownTask.runTaskTimer(plugin, 0, 60);
+
+            return;
+        }
+
+    }
+
     private void startGame(Boolean forced) {
         if (Bukkit.getOnlinePlayers().size() < 2) {
             setGameState(GameState.LOBBY);

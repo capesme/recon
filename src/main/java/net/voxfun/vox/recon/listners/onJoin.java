@@ -26,9 +26,18 @@ public class onJoin implements Listener {
         this.gameManager = gameManager;
     }
 
+    private int playersAmount = 0;
+
+
     @EventHandler
     private void join(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        playersAmount = Bukkit.getOnlinePlayers().size();
+
+        if (playersAmount == 1 && gameManager.getGameState() == GameState.WAITING) {
+            gameManager.setGameState(GameState.LOBBY);
+        }
+
         player.setInvulnerable(true);
         player.setSaturation(player.getSaturation() + 100);
         player.setHealth(20d);
@@ -37,13 +46,14 @@ public class onJoin implements Listener {
         player.setLevel(0);
         player.teleport(new Location(player.getWorld(),215.5, 40, -47));
         event.setJoinMessage("");
-        String formatted = FormatBroadcast.format(String.format("%s joined the lobby", event.getPlayer().getName()));
+        String formatted = FormatBroadcast.format(String.format("%s joined the lobby " + ChatColor.GREEN + "(" + playersAmount + "/15)", event.getPlayer().getName()));
+
         if (gameManager.getGameState() == GameState.ACTIVE) {
             ScoreboardManager.addPlayer(event.getPlayer());
             event.getPlayer().sendMessage(formatted);
             event.getPlayer().sendMessage("There is a game currently active, please wait until it ends.");
             event.getPlayer().setGameMode(GameMode.SPECTATOR);
-        } else if (gameManager.getGameState() == GameState.LOBBY) {
+        } else if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.WAITING) {
             Map<String, Document> maps = MapManager.getMaps();
             maps.forEach((mapName, doc) -> {
                 TextComponent textComponent = new TextComponent(mapName);
@@ -52,6 +62,11 @@ public class onJoin implements Listener {
                 player.spigot().sendMessage(textComponent);
                 player.setGameMode(GameMode.ADVENTURE);
             });
+
+            if (gameManager.getGameState() == GameState.LOBBY && playersAmount >= 2) {
+                gameManager.setGameState(GameState.WAITING);
+            }
+
             Bukkit.broadcastMessage(formatted);
         }
     }

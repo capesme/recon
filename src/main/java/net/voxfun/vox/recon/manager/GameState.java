@@ -2,6 +2,7 @@ package net.voxfun.vox.recon.manager;
 
 public enum GameState {
     LOBBY,
+    WAITING,
     STARTING,
     ACTIVE,
     WON,

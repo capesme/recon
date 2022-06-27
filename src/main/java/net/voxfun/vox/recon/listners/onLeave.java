@@ -16,9 +16,19 @@ public class onLeave implements Listener {
         this.gameManager = gameManager;
     }
 
+    private int playersAmount = 0;
+
     @EventHandler
     private void onLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        playersAmount = Bukkit.getOnlinePlayers().size();
+
+        if (playersAmount <= 2 ) {
+            gameManager.setGameState(GameState.LOBBY);
+            Bukkit.broadcastMessage(FormatBroadcast.format("Game has been stopped because the minimum player requirement isn't met."));
+            Bukkit.broadcastMessage(FormatBroadcast.format(playersAmount + ""));
+        }
+
         event.setQuitMessage("");
         Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s left the lobby", event.getPlayer().getName())));
         if (gameManager.getGameState() == GameState.ACTIVE) {
