@@ -272,6 +272,7 @@ public class GameManager {
         if (team != null) { team.unregister(); }
         if (forced) {
             setGameState(GameState.LOBBY);
+            cleanup();
         } else {
             gameEndCountdownTask = new GameEndCountdownTask(this);
             gameEndCountdownTask.runTaskTimer(plugin, 0, 20);

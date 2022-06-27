@@ -27,7 +27,6 @@ public class onLeave implements Listener {
             gameManager.setGameState(GameState.LOBBY);
             GameManager.cleanup();
             Bukkit.broadcastMessage(FormatBroadcast.format("Game has been stopped because the minimum player requirement isn't met."));
-            Bukkit.broadcastMessage(FormatBroadcast.format(playersAmount + ""));
         }
 
         event.setQuitMessage("");
