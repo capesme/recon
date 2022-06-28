@@ -6,7 +6,6 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.voxfun.vox.recon.index;
 import net.voxfun.vox.recon.listners.DamagedListener;
-import net.voxfun.vox.recon.listners.PlayerChatListener;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import net.voxfun.vox.recon.mod.GenerateId;
 import net.voxfun.vox.recon.tasks.*;
@@ -20,7 +19,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameManager {
     private final index plugin;
@@ -253,7 +257,13 @@ public class GameManager {
                 player.sendMessage(String.format("Totalling over %s xp.", xp));
                 games.updateOne(query, new BasicDBObject("$set", updateFields));
             }
-            winners.stream().map(HumanEntity::getName).forEach(player -> Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s has won the game", player))));
+            sendWinnerRequest(activeGameId, winners);
+            if (winners.size() == 2) {
+                String WinnersString = winners.stream().map(HumanEntity::getName).collect(Collectors.toList()).stream().collect(StringBuilder::new, (x, y) -> x.append(y), (a, b) -> a.append(" and ").append(b)).toString();
+                Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s has won the game", WinnersString)));
+            } else {
+                winners.stream().map(HumanEntity::getName).forEach(player -> Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s has won the game", player))));
+            }
         } else {
             Bukkit.broadcastMessage(FormatBroadcast.format("No one won the game!"));
         }
@@ -266,6 +276,27 @@ public class GameManager {
         } else {
             gameEndCountdownTask = new GameEndCountdownTask(this);
             gameEndCountdownTask.runTaskTimer(plugin, 0, 20);
+        }
+    }
+    private static void sendWinnerRequest(String matchId, List<Player> winners) {
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL("https://voxfun.net/api/match/win?key=likhwef892uh3jnfajknf");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("charset", "utf-8");
+            connection.connect();
+            String Winners = winners.stream().map(player -> String.format("{\"UUID\": \"%s\", \"name\": \"%s\", \"xp\": 12, \"deaths\": 2, \"kills\": 5}", player.getUniqueId(), player.getName())).collect(Collectors.toList()).stream().collect(StringBuilder::new, (x, y) -> x.append(y), (a, b) -> a.append(", ").append(b)).toString();
+            OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+            out.write(String.format("{\"matchId\": \"%s\", \"winners\": [%s]}", matchId, Winners));
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) { connection.disconnect(); }
         }
     }
 }

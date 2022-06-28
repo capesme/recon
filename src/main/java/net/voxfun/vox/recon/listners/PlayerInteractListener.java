@@ -9,8 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static net.voxfun.vox.recon.manager.allowedInteractionBlockList.allowedBlockInteractions;
-
 public class PlayerInteractListener implements Listener {
     private GameManager gameManager;
 
@@ -20,13 +18,13 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
+        if (event.getClickedBlock() == null) return;
         Material block = event.getClickedBlock().getType();
         Player player = event.getPlayer();
-            if (allowedInteractionBlockList.get().contains(block) || player.getGameMode().equals(GameMode.CREATIVE)) {
-                event.setCancelled(false);
-
-            } else {
-                event.setCancelled(true);
-            }
+        if (allowedInteractionBlockList.get().contains(block) || player.getGameMode().equals(GameMode.CREATIVE)) {
+            event.setCancelled(false);
+        } else {
+            event.setCancelled(true);
+        }
     }
 }
