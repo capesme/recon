@@ -6,6 +6,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.voxfun.vox.recon.index;
 import net.voxfun.vox.recon.listners.DamagedListener;
+import net.voxfun.vox.recon.listners.PlayerChatListener;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import net.voxfun.vox.recon.mod.GenerateId;
 import net.voxfun.vox.recon.tasks.*;

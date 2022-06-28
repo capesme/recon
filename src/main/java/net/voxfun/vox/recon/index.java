@@ -32,6 +32,7 @@ public final class index extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onLeave(gameManager), this);
         getServer().getPluginManager().registerEvents(new ShotArrowListener(gameManager), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(gameManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerChatListener(gameManager), this);
 
         new InGameStatsManager(gameManager);
 
@@ -76,7 +77,7 @@ public final class index extends JavaPlugin {
 }
 
 // - vote stuff - OK
-// - spectator chat
+// - spectator chat - OK
 // - Move starting countdown above the hotbar - OK
 // - no one alive, end the game - OK
 // - reset scoreboard - OK
