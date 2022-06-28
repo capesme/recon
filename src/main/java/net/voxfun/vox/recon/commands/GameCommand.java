@@ -19,6 +19,7 @@ public class GameCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         switch (args[0].toLowerCase(Locale.ROOT)) {
             case "start":
+                if (sender.hasPermission("recon.game.start")) {
                 if (gameManager.getGameState() == GameState.STARTING) {
                     sender.sendMessage(ChatColor.RED + "Game is starting.");
                     return true;
@@ -39,23 +40,30 @@ public class GameCommand implements CommandExecutor {
                     }
                 }
                 gameManager.setGameState(GameState.STARTING);
+            }
                 break;
             case "restart":
                 // do code
                 break;
             case "end":
-                if (gameManager.getGameState() != GameState.ACTIVE && gameManager.getGameState() != GameState.STARTING) {
-                    sender.sendMessage(ChatColor.RED + "There is no game to end.");
-                    return true;
+                if (sender.hasPermission("recon.game.end")) {
+                    if (gameManager.getGameState() != GameState.ACTIVE && gameManager.getGameState() != GameState.STARTING) {
+                        sender.sendMessage(ChatColor.RED + "There is no game to end.");
+                        return true;
+                    }
+                    gameManager.setGameState(GameState.WON);
                 }
-                gameManager.setGameState(GameState.WON);
                 break;
             case "forcestart":
-                GameManager.cleanup();
-                gameManager.setGameState(GameState.FORCED_START);
+                if (sender.hasPermission("recon.game.forcestart")) {
+                    GameManager.cleanup();
+                    gameManager.setGameState(GameState.FORCED_START);
+                }
                 break;
             case "forceend":
-                gameManager.setGameState(GameState.FORCED_END);
+                if (sender.hasPermission("recon.game.forceend")) {
+                    gameManager.setGameState(GameState.FORCED_END);
+                }
                 break;
         }
         return true;

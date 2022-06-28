@@ -88,3 +88,5 @@ public final class index extends JavaPlugin {
 // - kill streaks - OK .. somewhat
 // - Aiming game in lobby
 // - Leaderboard in game
+// - Permissions
+// - Disallow 2nd hand

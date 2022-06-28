@@ -10,7 +10,7 @@ import java.util.List;
 public class GameCommandTabComplete implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("game")) {
+        if (command.getName().equalsIgnoreCase("game") && sender.hasPermission("recon.game.tabcomplete")) {
             if (args.length > 2) return new ArrayList<>();
             if (args.length > 1) {
                 List<String> completions = new ArrayList<>();

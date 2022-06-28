@@ -21,9 +21,15 @@ commands:
     description: Votes for a specified map
     usage: vote <map>
 permissions:
-  coitc.reloaddb:
+  recon.reloaddb:
     description: Can reload the database.
     default: op
-  coitc.mod:
-    description: mod
+  recon.game.*:
+    description: Gives you access to all game plugins.
     default: op
+    children:
+      recon.game.start
+      recon.game.end
+      recon.game.forcestart
+      recon.game.forceend
+      recon.game.tabcomplete
