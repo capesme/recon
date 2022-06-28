@@ -234,6 +234,7 @@ public class GameManager {
         if (allKillsF.size() > 0) {
             Integer mostKills = Collections.max(allKillsF.values());
             List<Player> winners = new ArrayList<>();
+            String and = " and ";
             for (Map.Entry<Player, Integer> entry : allKillsF.entrySet()) {
                 Player player = entry.getKey();
                 Integer kills = DamagedListener.getKills().getOrDefault(player, 0);
@@ -259,8 +260,8 @@ public class GameManager {
             }
             sendWinnerRequest(activeGameId, winners);
             if (winners.size() == 2) {
-                String WinnersString = winners.stream().map(HumanEntity::getName).collect(Collectors.toList()).stream().collect(StringBuilder::new, (x, y) -> x.append(y), (a, b) -> a.append(" and ").append(b)).toString();
-                Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s has won the game", WinnersString)));
+                //String WinnersString = winners.stream().map(HumanEntity::getName).collect(Collectors.toList()).stream().collect(StringBuilder::new, (x, y) -> x.append(y), (a, b) -> a.append(" and ").append(b)).toString();
+                Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s and %s have won the game!", winners.get(0).getName(), winners.get(1).getName())));
             } else {
                 winners.stream().map(HumanEntity::getName).forEach(player -> Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s has won the game", player))));
             }
