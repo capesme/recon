@@ -77,7 +77,7 @@ public class GameManager {
                     Location Spawn = new Location(player.getWorld(), 215, 40, -47);
 
                     player.setInvulnerable(true);
-                    if (player.getWorld().getNearbyEntities(Spawn, 20, 20, 20).contains(player)) {
+                    if (player.getWorld().getNearbyEntities(Spawn, 12, 15, 10).contains(player) && !(player.getGameMode().equals(GameMode.SPECTATOR))) {
                         return;
                     } else {
                         player.teleport(Spawn);

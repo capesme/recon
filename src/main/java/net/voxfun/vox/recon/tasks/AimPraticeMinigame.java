@@ -1,9 +1,13 @@
 package net.voxfun.vox.recon.tasks;
 
+import com.mongodb.client.MongoCollection;
 import com.sun.org.apache.bcel.internal.generic.FieldOrMethod;
+import net.voxfun.vox.recon.index;
 import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
+import net.voxfun.vox.recon.manager.MapManager;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,7 +17,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.List;
+import java.util.*;
 
 public class AimPraticeMinigame extends BukkitRunnable {
     private final GameManager gameManager;
@@ -28,14 +32,19 @@ public class AimPraticeMinigame extends BukkitRunnable {
             cancel();
         }
 
+        // Rest of the Thingy lmao
+
         World World = Bukkit.getWorld("OITC");
 
         int allZombies = World.getEntitiesByClass(Zombie.class).size();
 
-        Location Spawn1 = new Location(World, 196.5, 40, -32.5);
-        Location Spawn2 = new Location(World, 194.5, 42, -32.5);
-        Location Spawn3 = new Location(World, 196.5, 40, -32.5);
-        Location Spawn4 = new Location(World, 196.5, 40, -32.5);
+        //List<Document> mapSpawns = selectedMap.getList("spawns", Document.class);
+        //Random rand = new Random();
+        //Document xyz = mapSpawns.get(rand.nextInt(mapSpawns.size()));
+        //Integer x = xyz.getInteger("x");
+        //Integer y = xyz.getInteger("y");
+        //Integer z = xyz.getInteger("z");
+        //Location Spawn = new Location(World, x, y, z);
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             if (!player.getPlayer().getInventory().contains(Material.ARROW) && player.getPlayer().getInventory().contains(Material.BOW)) {
@@ -58,26 +67,16 @@ public class AimPraticeMinigame extends BukkitRunnable {
             zombie.setSilent(true);
         });
 
-       if (allZombies < 3 && (World.getNearbyEntities(Spawn1, 1, 2 ,1).size() == 0)) {
-           World.spawnEntity(Spawn1, EntityType.ZOMBIE);
+        //if (allZombies < 3 && (World.getNearbyEntities(Spawn, 1, 2 ,1).size() == 0)) {
+        //   World.spawnEntity(Spawn, EntityType.ZOMBIE);
 
-           World.getEntitiesByClass(Zombie.class).forEach(zombie -> {
-               Location lookHere = new Location(World,204, 40, -36);
-               float yaw = lookHere.getYaw();
+        //   World.getEntitiesByClass(Zombie.class).forEach(zombie -> {
+               //       Location lookHere = new Location(World,204, 40, -36);
+               //       float yaw = lookHere.getYaw();
 
-               zombie.getLocation().setYaw(yaw);
-               zombie.teleport(zombie);
-           });
-       }
-
-        if (allZombies < 3 && (World.getNearbyEntities(Spawn2, 1, 2 ,1).size() == 0)) {
-            World.spawnEntity(Spawn2, EntityType.ZOMBIE);
-
-            World.getEntitiesByClass(Zombie.class).forEach(zombie -> {
-                Location lookHere = new Location(World,204, 40, -36);
-
-                zombie.getLocation().setDirection(lookHere.getDirection());
-            });
-        }
+               //       zombie.getLocation().setYaw(yaw);
+               //       zombie.teleport(zombie);
+               //   });
+        //}
     }
 }
