@@ -41,6 +41,7 @@ public class GameManager {
     public static AimPraticeMinigame aimPraticeMinigame;
     public static RespawnOKTask respawnOKTask;
     public String activeGameId = null;
+    private static Location lastLocation = null;
 
     public GameManager(index plugin) {
         this.plugin = plugin;
@@ -60,14 +61,14 @@ public class GameManager {
         switch (gameState) {
             case LOBBY:
                 if (getGameState() == GameState.LOBBY); {
-                lobbyCheck = new LobbyCheck(this);
-                lobbyCheck.runTaskTimer(plugin, 5, 40);
-            }
+                    lobbyCheck = new LobbyCheck(this);
+                    lobbyCheck.runTaskTimer(plugin, 5, 40);
+                }
 
-            if (getGameState() == GameState.LOBBY || getGameState() == GameState.WAITING); {
-                aimPraticeMinigame = new AimPraticeMinigame(this);
-                aimPraticeMinigame.runTaskTimer(plugin, 0, 0);
-            }
+                if (getGameState() == GameState.LOBBY || getGameState() == GameState.WAITING); {
+                    aimPraticeMinigame = new AimPraticeMinigame(this);
+                    aimPraticeMinigame.runTaskTimer(plugin, 0, 0);
+                }
 
                 MapManager.reloadMaps();
                 Map<String, Document> maps = MapManager.getMaps();
@@ -163,19 +164,16 @@ public class GameManager {
                 if (entity.getName().equals("ReconArrow")) { entity.remove(); }
             });
         }
+
+        lastLocation = null;
     }
     public BlockManager getBlockManager() { return blockManager; }
-
-
     private void preGameStart(Boolean forced) {
         if (Bukkit.getOnlinePlayers().size() > 1 && gameState.equals(GameState.WAITING)) {
             preGameStartCountdownTask = new PreGameStartCountdownTask(this);
             preGameStartCountdownTask.runTaskTimer(plugin, 0, 60);
-
-            return;
         }
     }
-
     private void startGame(Boolean forced) {
         if (Bukkit.getOnlinePlayers().size() < 2) {
             setGameState(GameState.LOBBY);
@@ -207,6 +205,15 @@ public class GameManager {
             Integer x = xyz.getInteger("x");
             Integer y = xyz.getInteger("y");
             Integer z = xyz.getInteger("z");
+            Location location = new Location(player.getWorld(), x, y, z);
+            if (location.equals(lastLocation)) {
+                System.out.println("Re-generating location...");
+                xyz = mapSpawnsF.get(rand.nextInt(mapSpawnsF.size()));
+                x = xyz.getInteger("x");
+                y = xyz.getInteger("y");
+                z = xyz.getInteger("z");
+                location = new Location(player.getWorld(), x, y, z);
+            }
             playerDocumentF.add(
                     new Document("uuid", player.getUniqueId().toString().replace("-", ""))
                             .append("username", player.getName())
@@ -214,7 +221,8 @@ public class GameManager {
             );
             player.setInvulnerable(true);
             player.setScoreboard(ScoreboardManager.create());
-            player.teleport(new Location(player.getWorld(), x, y, z));
+            player.teleport(location);
+            lastLocation = location;
             PlayerManager.setGame(player, gameIdF);
             teamF.addEntry(player.getName());
         });
@@ -227,7 +235,7 @@ public class GameManager {
         try {
             games.insertOne(gameF);
         } catch (NoSuchMethodError e) {
-            e.printStackTrace();
+            index.logger.info(e.toString());
         }
         playerManager.saveInventorys();
         if (forced) {
@@ -252,7 +260,6 @@ public class GameManager {
         if (allKillsF.size() > 0) {
             Integer mostKills = Collections.max(allKillsF.values());
             List<Player> winners = new ArrayList<>();
-            String and = " and ";
             for (Map.Entry<Player, Integer> entry : allKillsF.entrySet()) {
                 Player player = entry.getKey();
                 Integer kills = DamagedListener.getKills().getOrDefault(player, 0);
@@ -278,7 +285,6 @@ public class GameManager {
             }
             sendWinnerRequest(activeGameId, winners);
             if (winners.size() == 2) {
-                //String WinnersString = winners.stream().map(HumanEntity::getName).collect(Collectors.toList()).stream().collect(StringBuilder::new, (x, y) -> x.append(y), (a, b) -> a.append(" and ").append(b)).toString();
                 Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s and %s have won the game!", winners.get(0).getName(), winners.get(1).getName())));
             } else {
                 winners.stream().map(HumanEntity::getName).forEach(player -> Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s has won the game", player))));

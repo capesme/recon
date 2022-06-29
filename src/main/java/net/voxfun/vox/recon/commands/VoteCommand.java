@@ -25,10 +25,9 @@ public class VoteCommand implements CommandExecutor {
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid Map!");
             }
-            return true;
         } else {
             sender.sendMessage(FormatBroadcast.format(String.format("Voted for %s.", args[0])));
-            return true;
         }
+        return true;
     }
 }
