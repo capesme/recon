@@ -1,8 +1,6 @@
 package net.voxfun.vox.recon.listners;
 
 import net.voxfun.vox.recon.manager.GameManager;
-import net.voxfun.vox.recon.mod.FormatBroadcast;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

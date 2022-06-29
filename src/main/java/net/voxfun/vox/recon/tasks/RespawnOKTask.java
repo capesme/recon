@@ -1,15 +1,11 @@
 package net.voxfun.vox.recon.tasks;
 
 import net.voxfun.vox.recon.manager.MapManager;
-import net.voxfun.vox.recon.manager.PlayerManager;
-import net.voxfun.vox.recon.mod.FormatBroadcast;
 import org.bson.Document;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;

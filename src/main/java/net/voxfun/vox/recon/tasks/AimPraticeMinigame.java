@@ -37,9 +37,6 @@ public class AimPraticeMinigame extends BukkitRunnable {
         Location Spawn3 = new Location(World, 196.5, 40, -32.5);
         Location Spawn4 = new Location(World, 196.5, 40, -32.5);
 
-
-
-
         for(Player player : Bukkit.getOnlinePlayers()) {
             if (!player.getPlayer().getInventory().contains(Material.ARROW) && player.getPlayer().getInventory().contains(Material.BOW)) {
                 ItemStack arrow = new ItemStack(Material.ARROW);
