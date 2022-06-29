@@ -89,9 +89,10 @@ public final class index extends JavaPlugin {
 // - custom game time - OK
 // - fix tied games - OK .. somewhat
 // - kill streaks - OK .. somewhat
-// - Aiming game in lobby
+// - Aiming game in lobby - OK .. somewhat
 // - Leaderboard in game
 // - Permissions - OK
 // - Disallow 2nd hand - OK
+// - Fix players spawning on each other - OK
 // - Cosmetics
-// - Fix votes
+// - Fix votes - OK
