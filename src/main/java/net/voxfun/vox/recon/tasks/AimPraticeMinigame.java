@@ -59,15 +59,28 @@ public class AimPraticeMinigame extends BukkitRunnable {
             zombie.setAdult();
             zombie.getEquipment().clear();
             zombie.setSilent(true);
-            zombie.getFacing().getDirection().setX(204).setY(40).setZ(-36);
         });
 
        if (allZombies < 3 && (World.getNearbyEntities(Spawn1, 1, 2 ,1).size() == 0)) {
            World.spawnEntity(Spawn1, EntityType.ZOMBIE);
+
+           World.getEntitiesByClass(Zombie.class).forEach(zombie -> {
+               Location lookHere = new Location(World,204, 40, -36);
+               float yaw = lookHere.getYaw();
+
+               zombie.getLocation().setYaw(yaw);
+               zombie.teleport(zombie);
+           });
        }
 
         if (allZombies < 3 && (World.getNearbyEntities(Spawn2, 1, 2 ,1).size() == 0)) {
             World.spawnEntity(Spawn2, EntityType.ZOMBIE);
+
+            World.getEntitiesByClass(Zombie.class).forEach(zombie -> {
+                Location lookHere = new Location(World,204, 40, -36);
+
+                zombie.getLocation().setDirection(lookHere.getDirection());
+            });
         }
     }
 }

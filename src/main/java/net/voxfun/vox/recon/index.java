@@ -97,3 +97,4 @@ public final class index extends JavaPlugin {
 // - Fix players spawning on each other - OK
 // - Cosmetics
 // - Fix votes - OK
+// - Information Messages

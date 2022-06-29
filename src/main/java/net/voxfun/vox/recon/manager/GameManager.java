@@ -73,8 +73,14 @@ public class GameManager {
                 Map<String, Document> maps = MapManager.getMaps();
                 Bukkit.getWorlds().forEach(world -> world.setDifficulty(Difficulty.EASY));
                 Bukkit.getOnlinePlayers().forEach(player -> {
+                    Location Spawn = new Location(player.getWorld(), 215, 40, -47);
+
                     player.setInvulnerable(true);
-                    player.teleport(new Location(player.getWorld(), 215, 40, -47));
+                    if (player.getWorld().getNearbyEntities(Spawn, 20, 20, 20).contains(player)) {
+                        return;
+                    } else {
+                        player.teleport(Spawn);
+                    }
                     player.setSaturation(player.getSaturation() + 100);
                 });
                 maps.forEach((mapName, doc) -> {

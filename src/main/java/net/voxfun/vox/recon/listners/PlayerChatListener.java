@@ -24,7 +24,7 @@ public class PlayerChatListener implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         String message = event.getMessage();
-        if (player.getGameMode().equals(GameMode.SPECTATOR)) {
+        if (player.getGameMode().equals(GameMode.SPECTATOR) && gameManager.getGameState().equals(GameState.ACTIVE)) {
             for(Player allPlayers : Bukkit.getOnlinePlayers())
 
                 if (!allPlayers.getGameMode().equals(GameMode.SPECTATOR) && !allPlayers.hasPermission("recon.seespecchat")) {
