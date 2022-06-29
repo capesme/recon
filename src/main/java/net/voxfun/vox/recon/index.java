@@ -46,6 +46,7 @@ public final class index extends JavaPlugin {
         getCommand("reloadDb").setExecutor(new ReloadDBCommand(gameManager));
 
         new DontHurtEntity();
+        new MinimumPlayerAmount();
         new DontInteractBlockArrow();
 
         if (config.get("database") == null) {

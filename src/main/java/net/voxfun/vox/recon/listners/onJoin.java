@@ -2,10 +2,7 @@ package net.voxfun.vox.recon.listners;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.voxfun.vox.recon.manager.GameManager;
-import net.voxfun.vox.recon.manager.GameState;
-import net.voxfun.vox.recon.manager.MapManager;
-import net.voxfun.vox.recon.manager.ScoreboardManager;
+import net.voxfun.vox.recon.manager.*;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import org.bson.Document;
 import org.bukkit.Bukkit;
@@ -67,7 +64,7 @@ public class onJoin implements Listener {
                 player.setGameMode(GameMode.ADVENTURE);
             });
 
-            if (gameManager.getGameState() == GameState.LOBBY && playersAmount >= 2) {
+            if (gameManager.getGameState() == GameState.LOBBY && playersAmount >= MinimumPlayerAmount.get()) {
                 gameManager.setGameState(GameState.WAITING);
             }
 

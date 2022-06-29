@@ -2,6 +2,7 @@ package net.voxfun.vox.recon.tasks;
 
 import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
+import net.voxfun.vox.recon.manager.MinimumPlayerAmount;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,7 +27,7 @@ public class LobbyCheck extends BukkitRunnable {
         }
         playersAmount = Bukkit.getOnlinePlayers().size();
 
-        if (playersAmount >= 2) {
+        if (playersAmount >= MinimumPlayerAmount.get()) {
             gameManager.setGameState(GameState.WAITING);
         }
     }

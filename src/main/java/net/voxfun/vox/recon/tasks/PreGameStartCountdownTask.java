@@ -1,7 +1,9 @@
 package net.voxfun.vox.recon.tasks;
 
+import net.voxfun.vox.recon.manager.DontHurtEntity;
 import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
+import net.voxfun.vox.recon.manager.MinimumPlayerAmount;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -32,7 +34,7 @@ public class PreGameStartCountdownTask extends BukkitRunnable {
             Bukkit.broadcastMessage(FormatBroadcast.format(preGameTime + " seconds until teleportation!"));
         }
 
-        if (preGameTime <= 1) {
+        if (preGameTime <= MinimumPlayerAmount.get()) {
             gameManager.setGameState(GameState.STARTING);
             Bukkit.broadcastMessage(FormatBroadcast.format("You're being teleported!"));
         }
