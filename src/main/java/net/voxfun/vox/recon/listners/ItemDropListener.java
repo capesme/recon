@@ -7,8 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerPickupArrowEvent;
+import org.bukkit.inventory.PlayerInventory;
 
 public class ItemDropListener implements Listener {
     private GameManager gameManager;
@@ -21,14 +24,8 @@ public class ItemDropListener implements Listener {
     }
 
     @EventHandler
-    public void onInventory(InventoryClickEvent event) {
-        if (gameManager.getGameState() == GameState.LOBBY) { return; }
-        event.setCancelled(true);
-    }
-
-    @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
-        if (gameManager.getGameState() == GameState.LOBBY) { return; }
+        if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) { return; }
         Player player = event.getPlayer();
         GameMode gamemode = player.getGameMode();
         int slotZero = 0;
@@ -52,6 +49,15 @@ public class ItemDropListener implements Listener {
     @EventHandler
     public void onPickup(PlayerPickupArrowEvent event) {
         if (gameManager.getGameState() == GameState.ACTIVE) {
+            event.setCancelled(true);
+        } else {
+            event.setCancelled(false);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryChange (InventoryClickEvent event) {
+        if (gameManager.getGameState() == GameState.LOBBY && !(event.getWhoClicked().getGameMode().equals(GameMode.CREATIVE))) {
             event.setCancelled(true);
         } else {
             event.setCancelled(false);

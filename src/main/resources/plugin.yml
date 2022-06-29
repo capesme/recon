@@ -15,21 +15,11 @@ commands:
   game:
     description: starts the game
     usage: game (start | restart | end)
-    permission: recon.mod
+    permission: recon.game.*
     permission-message: You do not have permission to use this command.
   vote:
     description: Votes for a specified map
     usage: vote <map>
 permissions:
-  recon.reloaddb:
-    description: Can reload the database.
-    default: op
-  recon.game.*:
-    description: Gives you access to all game plugins.
-    default: op
-    children:
-      recon.game.start
-      recon.game.end
-      recon.game.forcestart
-      recon.game.forceend
-      recon.game.tabcomplete
+  recon.seespecchat:
+    description: Allows you to see spectator chat!

@@ -38,6 +38,10 @@ public class onJoin implements Listener {
             gameManager.setGameState(GameState.LOBBY);
         }
 
+        if (playersAmount == 1 && gameManager.getGameState() == GameState.LOBBY) {
+            gameManager.setGameState(GameState.LOBBY);
+        }
+
         player.setInvulnerable(true);
         player.setSaturation(player.getSaturation() + 100);
         player.setHealth(20d);

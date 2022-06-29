@@ -24,10 +24,10 @@ public class PlayerChatListener implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         String message = event.getMessage();
-        if (player.getGameMode().equals(GameMode.SPECTATOR) && gameManager.getGameState().equals(GameState.ACTIVE)) {
+        if (player.getGameMode().equals(GameMode.SPECTATOR)) {
             for(Player allPlayers : Bukkit.getOnlinePlayers())
 
-                if (!allPlayers.getGameMode().equals(GameMode.SPECTATOR) || !player.hasPermission("recon.seeppecchat")) {
+                if (!allPlayers.getGameMode().equals(GameMode.SPECTATOR) && !allPlayers.hasPermission("recon.seespecchat")) {
                     Player noneSpecs = allPlayers.getPlayer();
                     event.getRecipients().remove(noneSpecs);
                 }
@@ -35,7 +35,6 @@ public class PlayerChatListener implements Listener {
             event.setFormat(ChatColor.GRAY + "[SPECTATOR] " + player.getName() + ": " + message);
             event.setMessage(message);
 
-        } else {
         }
     }
 }

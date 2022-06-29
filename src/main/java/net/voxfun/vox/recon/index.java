@@ -6,6 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import net.voxfun.vox.recon.commands.*;
 import net.voxfun.vox.recon.listners.*;
 import net.voxfun.vox.recon.manager.*;
+import net.voxfun.vox.recon.tasks.RespawnOKTask;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,6 +34,8 @@ public final class index extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ShotArrowListener(gameManager), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(gameManager), this);
         getServer().getPluginManager().registerEvents(new PlayerChatListener(gameManager), this);
+        getServer().getPluginManager().registerEvents(new HandSwapListener(gameManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveListener(gameManager), this);
 
         new InGameStatsManager(gameManager);
 
@@ -81,12 +84,14 @@ public final class index extends JavaPlugin {
 // - Move starting countdown above the hotbar - OK
 // - no one alive, end the game - OK
 // - reset scoreboard - OK
-// - game setting to interact with entities.
+// - game setting to interact with entities. - OK
 // - disallowedBlockInteractions: ["*"], ["OAK_DOOR"] - OK
 // - custom game time - OK
 // - fix tied games - OK .. somewhat
 // - kill streaks - OK .. somewhat
 // - Aiming game in lobby
 // - Leaderboard in game
-// - Permissions
-// - Disallow 2nd hand
+// - Permissions - OK
+// - Disallow 2nd hand - OK
+// - Cosmetics
+// - Fix votes

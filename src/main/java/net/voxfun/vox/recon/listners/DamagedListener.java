@@ -110,7 +110,11 @@ public class DamagedListener implements Listener {
         Entity hurt = event.getEntity();
         if (DontHurtEntity.get().contains(hurt.getType())) { event.setCancelled(true); return; }
         if (hurt instanceof Player && event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && gameManager.getGameState() == GameState.ACTIVE) { event.setDamage(100); }
-        if (!(hurt instanceof Player) && event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && gameManager.getGameState() == GameState.LOBBY) { event.setDamage(100); }
+        if (!(hurt instanceof Player) && event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
+            if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.WAITING) {
+                event.setDamage(100);
+            }
+        }
     }
 
     public static Map<Player, Integer> getKills() { return kills; }

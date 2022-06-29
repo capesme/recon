@@ -2,7 +2,9 @@ package net.voxfun.vox.recon.commands;
 
 import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
+import net.voxfun.vox.recon.mod.FormatBroadcast;
 import net.voxfun.vox.recon.tasks.GameMatchCountdownTask;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +21,9 @@ public class GameCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         switch (args[0].toLowerCase(Locale.ROOT)) {
             case "start":
-                if (sender.hasPermission("recon.game.start")) {
+                if (!sender.hasPermission("recon.game.start")){
+                    Bukkit.broadcastMessage(FormatBroadcast.format("Works???/"));
+                }
                 if (gameManager.getGameState() == GameState.STARTING) {
                     sender.sendMessage(ChatColor.RED + "Game is starting.");
                     return true;
@@ -40,7 +44,6 @@ public class GameCommand implements CommandExecutor {
                     }
                 }
                 gameManager.setGameState(GameState.STARTING);
-            }
                 break;
             case "restart":
                 // do code
