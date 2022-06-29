@@ -2,9 +2,7 @@ package net.voxfun.vox.recon.commands;
 
 import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
-import net.voxfun.vox.recon.mod.FormatBroadcast;
 import net.voxfun.vox.recon.tasks.GameMatchCountdownTask;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,7 +20,8 @@ public class GameCommand implements CommandExecutor {
         switch (args[0].toLowerCase(Locale.ROOT)) {
             case "start":
                 if (!sender.hasPermission("recon.game.start")){
-                    Bukkit.broadcastMessage(FormatBroadcast.format("Works???/"));
+                    sender.sendMessage(ChatColor.RED + "You do not have permissions to start a game!");
+                    return true;
                 }
                 if (gameManager.getGameState() == GameState.STARTING) {
                     sender.sendMessage(ChatColor.RED + "Game is starting.");
@@ -36,9 +35,19 @@ public class GameCommand implements CommandExecutor {
                 if (args[1] != null) {
                     if (args[1].toLowerCase().endsWith("m")) {
                         args[1] = String.valueOf(Integer.parseInt(args[1].replace("m", "")) * 60);
-                        GameMatchCountdownTask.matchTime = Integer.parseInt(args[1]);
+                        if (Integer.parseInt(args[1]) > 3599) {
+                            sender.sendMessage(ChatColor.RED + "A game cannot be longer than an hour!");
+                            return true;
+                        } else {
+                            GameMatchCountdownTask.matchTime = Integer.parseInt(args[1]);
+                        }
                     } else if (args[1].toLowerCase().endsWith("s")) {
-                        GameMatchCountdownTask.matchTime = Integer.parseInt(args[1].replace("s", ""));
+                        if (Integer.parseInt(args[1].replace("s", "")) > 3599) {
+                            sender.sendMessage(ChatColor.RED + "A game cannot be longer than an hour!");
+                            return true;
+                        } else {
+                            GameMatchCountdownTask.matchTime = Integer.parseInt(args[1].replace("s", ""));
+                        }
                     } else {
                         sender.sendMessage(ChatColor.RED + "Invalid arguments, you must specify minutes or seconds.");
                     }

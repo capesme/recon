@@ -16,7 +16,7 @@ public class GameCommandTabComplete implements TabCompleter {
             if (args.length > 2) return new ArrayList<>();
             if (args.length == 2) {
                 List<String> completions = new ArrayList<>();
-                String[] completionsArray = { "60s", "1m" };
+                String[] completionsArray = { "30s", "45s", "60s", "120s", "1m", "2m", "3m", "5m" };
                 StringUtil.copyPartialMatches(args[1], Arrays.asList(completionsArray), completions);
                 return completions;
             } else {
