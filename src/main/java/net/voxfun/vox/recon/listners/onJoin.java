@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.Map;
@@ -61,9 +62,9 @@ public class onJoin implements Listener {
                 player.setGameMode(GameMode.ADVENTURE);
             });
 
-            if (!(Bukkit.getScoreboardManager().getMainScoreboard() == Bukkit.getScoreboardManager().getMainScoreboard().getObjective("recon_lobby"))){
+            if ((Bukkit.getScoreboardManager().getMainScoreboard())  {
 
-                scoreboardManager.inLobbyScoreboardCreate();
+                Bukkit.broadcastMessage(FormatBroadcast.format("working"));
 
                 Bukkit.getOnlinePlayers().forEach(player1 -> {
                     scoreboardManager.clear();

@@ -76,7 +76,6 @@ public class GameManager {
                 Bukkit.getOnlinePlayers().forEach(player -> {
                     Location Spawn = new Location(player.getWorld(), 215, 40, -47);
 
-                    player.setInvulnerable(true);
                     if (player.getWorld().getNearbyEntities(Spawn, 12, 15, 10).contains(player) && !(player.getGameMode().equals(GameMode.SPECTATOR))) {
                         return;
                     } else {
@@ -250,6 +249,7 @@ public class GameManager {
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.getInventory().clear();
             player.setInvulnerable(true);
+            scoreboardManager.clear();
             PlayerManager.setGameMode(player, GameMode.SPECTATOR);
             if (Bukkit.getScoreboardManager().getMainScoreboard().getTeam(player.getUniqueId().toString()) != null) {
                 Bukkit.getScoreboardManager().getMainScoreboard().getTeam(player.getUniqueId().toString()).addEntry(player.getName());
