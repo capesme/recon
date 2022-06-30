@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.Map;
 
@@ -31,12 +32,8 @@ public class onJoin implements Listener {
         Player player = event.getPlayer();
         playersAmount = Bukkit.getOnlinePlayers().size();
 
-        if (playersAmount == 1 && gameManager.getGameState() == GameState.WAITING) {
-            gameManager.setGameState(GameState.LOBBY);
-        }
-
-        if (playersAmount == 1 && gameManager.getGameState() == GameState.LOBBY) {
-            gameManager.setGameState(GameState.LOBBY);
+        if (gameManager.getGameState() == GameState.LOBBY && playersAmount >= MinimumPlayerAmount.get()) {
+            gameManager.setGameState(GameState.WAITING);
         }
 
         player.setInvulnerable(true);
@@ -50,7 +47,7 @@ public class onJoin implements Listener {
         String formatted = FormatBroadcast.format(String.format("%s joined the lobby " + ChatColor.GREEN + "(" + playersAmount + "/15)", event.getPlayer().getName()));
 
         if (gameManager.getGameState() == GameState.ACTIVE) {
-            ScoreboardManager.addPlayer(event.getPlayer());
+            scoreboardManager.inGameAddPlayer(event.getPlayer());
             event.getPlayer().sendMessage(formatted);
             event.getPlayer().sendMessage("There is a game currently active, please wait until it ends.");
             event.getPlayer().setGameMode(GameMode.SPECTATOR);
@@ -64,10 +61,15 @@ public class onJoin implements Listener {
                 player.setGameMode(GameMode.ADVENTURE);
             });
 
-            if (gameManager.getGameState() == GameState.LOBBY && playersAmount >= MinimumPlayerAmount.get()) {
-                gameManager.setGameState(GameState.WAITING);
-            }
+            if (!(Bukkit.getScoreboardManager().getMainScoreboard() == Bukkit.getScoreboardManager().getMainScoreboard().getObjective("recon_lobby"))){
 
+                scoreboardManager.inLobbyScoreboardCreate();
+
+                Bukkit.getOnlinePlayers().forEach(player1 -> {
+                    scoreboardManager.clear();
+                    scoreboardManager.inLobbyAddPlayer(player1);
+                });
+            };
             Bukkit.broadcastMessage(formatted);
         }
     }

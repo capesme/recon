@@ -46,6 +46,7 @@ public final class index extends JavaPlugin {
 
         new DontHurtEntity();
         new MinimumPlayerAmount();
+        new MaximumPlayerAmount();
         new DontInteractBlockArrow();
 
         if (config.get("database") == null) {

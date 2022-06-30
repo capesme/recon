@@ -3,6 +3,7 @@ package net.voxfun.vox.recon.tasks;
 import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
 import net.voxfun.vox.recon.manager.MinimumPlayerAmount;
+import net.voxfun.vox.recon.manager.scoreboardManager;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -14,7 +15,7 @@ public class PreGameStartCountdownTask extends BukkitRunnable {
         this.gameManager = gameManager;
     }
 
-    private int preGameTime = 61;
+    public static int preGameTime = 61;
     private int playersAmount = 0;
 
     @Override
@@ -25,7 +26,7 @@ public class PreGameStartCountdownTask extends BukkitRunnable {
             return;
         }
 
-        if (playersAmount >= 2 && preGameTime == 60 && gameManager.getGameState() == GameState.WAITING) {
+        if (playersAmount >= MinimumPlayerAmount.get() && preGameTime == 60 && gameManager.getGameState() == GameState.WAITING) {
             Bukkit.broadcastMessage(FormatBroadcast.format(preGameTime + " seconds until teleportation!"));
         }
 
@@ -35,6 +36,13 @@ public class PreGameStartCountdownTask extends BukkitRunnable {
         }
 
             preGameTime--;
-        Bukkit.getOnlinePlayers().forEach(player -> player.setLevel(preGameTime));
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            player.setLevel(preGameTime);
+        });
     }
+
+    public static Integer get() {
+        return preGameTime;
+    }
+
 }

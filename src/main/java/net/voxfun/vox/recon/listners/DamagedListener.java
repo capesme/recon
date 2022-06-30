@@ -47,11 +47,11 @@ public class DamagedListener implements Listener {
             if (kills.get(killer) == null) {
                 kills.put(killer, 1);
                 killstreak.put(killer, 1);
-                ScoreboardManager.setKills(killer, 1);
+                scoreboardManager.setKills(killer, 1);
             } else {
                 kills.replace(killer, kills.get(killer) + 1);
                 killstreak.put(killer, killstreak.get(killer) == null ? 1 : killstreak.get(killer) + 1);
-                ScoreboardManager.setKills(killer, kills.get(killer));
+                scoreboardManager.setKills(killer, kills.get(killer));
                 if (killstreak.get(killer) > 1) {
                     if (killstreak.get(killer) == 5) {
                         Bukkit.broadcastMessage(ChatColor.BOLD + FormatBroadcast.format(String.format("%s is on a 5 kill streak!", killer.getName())));

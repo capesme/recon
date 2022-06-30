@@ -3,6 +3,7 @@ package net.voxfun.vox.recon.listners;
 import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
 import net.voxfun.vox.recon.manager.MinimumPlayerAmount;
+import net.voxfun.vox.recon.manager.scoreboardManager;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -24,7 +25,7 @@ public class onLeave implements Listener {
         Player player = event.getPlayer();
         playersAmount = Bukkit.getOnlinePlayers().size();
 
-        if (playersAmount <= MinimumPlayerAmount.get() ) {
+        if (playersAmount <= 2) {
             gameManager.setGameState(GameState.LOBBY);
             GameManager.cleanup();
             Bukkit.broadcastMessage(FormatBroadcast.format("Game has been stopped because the minimum player requirement isn't met."));

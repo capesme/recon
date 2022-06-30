@@ -83,6 +83,7 @@ public class GameManager {
                         player.teleport(Spawn);
                     }
                     player.setSaturation(player.getSaturation() + 100);
+                    player.setInvulnerable(true);
                 });
                 maps.forEach((mapName, doc) -> {
                     TextComponent textComponent = new TextComponent(mapName);
@@ -90,7 +91,6 @@ public class GameManager {
                     textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/vote " + mapName));
                     Bukkit.spigot().broadcast(textComponent);
                 });
-                ScoreboardManager.clear();
                 Bukkit.getOnlinePlayers().forEach(player -> player.setLevel(0));
                 break;
             case WAITING:
@@ -131,7 +131,7 @@ public class GameManager {
         DamagedListener.alivePlayers.clear();
         DamagedListener.deaths.clear();
         DamagedListener.kills.clear();
-        ScoreboardManager.clear();
+        scoreboardManager.clear();
         if (gameStartCountdownTask != null) {
             gameStartCountdownTask.cancel();
             gameStartCountdownTask = null;
@@ -169,7 +169,7 @@ public class GameManager {
     }
     public BlockManager getBlockManager() { return blockManager; }
     private void preGameStart(Boolean forced) {
-        if (Bukkit.getOnlinePlayers().size() > 1 && gameState.equals(GameState.WAITING)) {
+        if (Bukkit.getOnlinePlayers().size() > (MinimumPlayerAmount.get() - 1) && gameState.equals(GameState.WAITING)) {
             preGameStartCountdownTask = new PreGameStartCountdownTask(this);
             preGameStartCountdownTask.runTaskTimer(plugin, 0, 60);
         }
@@ -220,7 +220,7 @@ public class GameManager {
                             .append("stats", new JsonObject("{\"kills\": 0, \"deaths\": 0}"))
             );
             player.setInvulnerable(true);
-            player.setScoreboard(ScoreboardManager.create());
+            player.setScoreboard(scoreboardManager.inGameCreate());
             player.teleport(location);
             lastLocation = location;
             PlayerManager.setGame(player, gameIdF);
