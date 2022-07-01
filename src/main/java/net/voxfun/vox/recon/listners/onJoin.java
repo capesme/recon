@@ -52,6 +52,16 @@ public class onJoin implements Listener {
             event.getPlayer().sendMessage(formatted);
             event.getPlayer().sendMessage("There is a game currently active, please wait until it ends.");
             event.getPlayer().setGameMode(GameMode.SPECTATOR);
+            Bukkit.getOnlinePlayers().forEach(players -> {
+                    for (Player allPlayers : Bukkit.getOnlinePlayers()) {
+                        if (allPlayers.getGameMode() != GameMode.SPECTATOR && !allPlayers.hasPermission("recon.specs.see")) {
+                            Player noneSpecs = allPlayers.getPlayer();
+                            noneSpecs.hidePlayer(player);
+                            Bukkit.broadcastMessage(FormatBroadcast.format("Works?!?!?"));
+                        }
+                    }
+            });
+
         } else if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.WAITING) {
             Map<String, Document> maps = MapManager.getMaps();
             maps.forEach((mapName, doc) -> {
@@ -62,13 +72,15 @@ public class onJoin implements Listener {
                 player.setGameMode(GameMode.ADVENTURE);
             });
 
-            if ((Bukkit.getScoreboardManager().getMainScoreboard())  {
+            {
 
                 Bukkit.broadcastMessage(FormatBroadcast.format("working"));
 
                 Bukkit.getOnlinePlayers().forEach(player1 -> {
-                    scoreboardManager.clear();
+                    scoreboardManager.inLobbyScoreboardCreate();
                     scoreboardManager.inLobbyAddPlayer(player1);
+
+                    scoreboardManager.updateLobby();
                 });
             };
             Bukkit.broadcastMessage(formatted);

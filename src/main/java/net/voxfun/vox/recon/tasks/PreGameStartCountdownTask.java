@@ -20,9 +20,10 @@ public class PreGameStartCountdownTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (gameManager.getGameState() != GameState.WAITING) {
+        playersAmount = Bukkit.getOnlinePlayers().size();
+
+        if (gameManager.getGameState() != GameState.WAITING && playersAmount >= MinimumPlayerAmount.get()) {
             cancel();
-            playersAmount = Bukkit.getOnlinePlayers().size();
             return;
         }
 
@@ -33,6 +34,12 @@ public class PreGameStartCountdownTask extends BukkitRunnable {
         if (preGameTime <= MinimumPlayerAmount.get()) {
             gameManager.setGameState(GameState.STARTING);
             Bukkit.broadcastMessage(FormatBroadcast.format("You're being teleported!"));
+        }
+
+        if (preGameTime > 1) {
+            scoreboardManager.updateLobby();
+        } else {
+            scoreboardManager.clear();
         }
 
             preGameTime--;

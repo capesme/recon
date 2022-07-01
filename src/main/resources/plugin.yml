@@ -21,5 +21,13 @@ commands:
     description: Votes for a specified map
     usage: vote <map>
 permissions:
-  recon.seespecchat:
+  recon.specs.seeChat:
     description: Allows you to see spectator chat!
+  recon.specs.see:
+    description: Allows you to see spectators!
+  recon.specs.*:
+    children:
+      recon.specs.see: true
+      recon.specs.seeChat: true
+
+

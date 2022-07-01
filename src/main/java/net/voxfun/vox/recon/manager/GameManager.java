@@ -70,6 +70,7 @@ public class GameManager {
                     aimPraticeMinigame.runTaskTimer(plugin, 0, 0);
                 }
 
+
                 MapManager.reloadMaps();
                 Map<String, Document> maps = MapManager.getMaps();
                 Bukkit.getWorlds().forEach(world -> world.setDifficulty(Difficulty.EASY));
@@ -83,6 +84,9 @@ public class GameManager {
                     }
                     player.setSaturation(player.getSaturation() + 100);
                     player.setInvulnerable(true);
+                    scoreboardManager.inLobbyScoreboardCreate();
+                    scoreboardManager.inLobbyAddPlayer(player);
+                    scoreboardManager.updateLobby();
                 });
                 maps.forEach((mapName, doc) -> {
                     TextComponent textComponent = new TextComponent(mapName);
@@ -204,15 +208,17 @@ public class GameManager {
             Integer x = xyz.getInteger("x");
             Integer y = xyz.getInteger("y");
             Integer z = xyz.getInteger("z");
-            Location location = new Location(player.getWorld(), x, y, z);
-            if (location.equals(lastLocation)) {
-                System.out.println("Re-generating location...");
-                xyz = mapSpawnsF.get(rand.nextInt(mapSpawnsF.size()));
-                x = xyz.getInteger("x");
-                y = xyz.getInteger("y");
-                z = xyz.getInteger("z");
-                location = new Location(player.getWorld(), x, y, z);
+            Location Spawn = new Location(player.getWorld(), x, y, z);
+            Player Player = player;
+            World World = player.getWorld();
+
+            if (World.getNearbyEntities(Spawn, 1.5, 2.5 ,1.5).size() == 0) {
+                player.teleport(Spawn);
+                return;
+            } else {
+                new RespawnOKTask(new Location(World, x, y, z), Player).runTaskTimer(plugin, 1, 20);
             }
+
             playerDocumentF.add(
                     new Document("uuid", player.getUniqueId().toString().replace("-", ""))
                             .append("username", player.getName())
@@ -220,8 +226,8 @@ public class GameManager {
             );
             player.setInvulnerable(true);
             player.setScoreboard(scoreboardManager.inGameCreate());
-            player.teleport(location);
-            lastLocation = location;
+            scoreboardManager.inGameAddPlayer(player);
+            player.teleport(Spawn);
             PlayerManager.setGame(player, gameIdF);
             teamF.addEntry(player.getName());
         });

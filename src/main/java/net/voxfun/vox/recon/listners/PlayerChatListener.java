@@ -24,7 +24,7 @@ public class PlayerChatListener implements Listener {
         if (player.getGameMode().equals(GameMode.SPECTATOR) && gameManager.getGameState().equals(GameState.ACTIVE)) {
             for (Player allPlayers : Bukkit.getOnlinePlayers())
 
-                if (!allPlayers.getGameMode().equals(GameMode.SPECTATOR) && !allPlayers.hasPermission("recon.seespecchat")) {
+                if (!allPlayers.getGameMode().equals(GameMode.SPECTATOR) && !allPlayers.hasPermission("recon.specs.seeChat")) {
                     Player noneSpecs = allPlayers.getPlayer();
                     event.getRecipients().remove(noneSpecs);
                 }

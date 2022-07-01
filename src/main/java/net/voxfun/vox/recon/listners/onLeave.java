@@ -25,9 +25,14 @@ public class onLeave implements Listener {
         Player player = event.getPlayer();
         playersAmount = Bukkit.getOnlinePlayers().size();
 
-        if (playersAmount <= 2) {
-            gameManager.setGameState(GameState.LOBBY);
+        if (gameManager.getGameState()  == GameState.LOBBY || gameManager.getGameState() == GameState.STARTING) {
+            scoreboardManager.updateLobbyLeave();
+}
+
+
+        if ((playersAmount - 1) < 2) {
             GameManager.cleanup();
+            gameManager.setGameState(GameState.LOBBY);
             Bukkit.broadcastMessage(FormatBroadcast.format("Game has been stopped because the minimum player requirement isn't met."));
         }
 

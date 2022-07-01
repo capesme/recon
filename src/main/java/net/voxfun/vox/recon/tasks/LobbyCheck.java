@@ -17,12 +17,12 @@ public class LobbyCheck extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (gameManager.getGameState() != GameState.LOBBY) {
+        playersAmount = Bukkit.getOnlinePlayers().size();
+        if (gameManager.getGameState() != GameState.LOBBY || playersAmount < MinimumPlayerAmount.get()) {
             cancel();
-            playersAmount = Bukkit.getOnlinePlayers().size();
             return;
         }
-        playersAmount = Bukkit.getOnlinePlayers().size();
+        scoreboardManager.updateLobby();
 
         if (playersAmount >= MinimumPlayerAmount.get()) {
             gameManager.setGameState(GameState.WAITING);

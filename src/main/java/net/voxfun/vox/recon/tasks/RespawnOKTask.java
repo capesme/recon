@@ -15,7 +15,6 @@ public class RespawnOKTask extends BukkitRunnable {
     private int timeLeft = 1;
     private Player player;
     private Location location;
-    private Event event;
 
     public RespawnOKTask(Location location, Player player) {
         this.location = location;

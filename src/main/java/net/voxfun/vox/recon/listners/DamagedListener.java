@@ -87,6 +87,13 @@ public class DamagedListener implements Listener {
             deaths.replace(killed, deaths.get(killed) + 1);
             if (deaths.get(killed) > 4) {
                 killed.setGameMode(GameMode.SPECTATOR);
+                Bukkit.getOnlinePlayers().forEach(players -> {
+                    if (!(players.getGameMode() == GameMode.SPECTATOR) && !(players.hasPermission("recon.specs.see"))){
+                        players.hidePlayer(killed);
+                    } else if (players.getGameMode() == GameMode.SPECTATOR) {
+                        killed.showPlayer(players);
+                    }
+                });
                 // Other death stuff...
                 Bukkit.broadcastMessage(FormatBroadcast.format(ChatColor.RED + String.format("%s has been eliminated.", killed.getName())));
                 alivePlayers.remove(killed);

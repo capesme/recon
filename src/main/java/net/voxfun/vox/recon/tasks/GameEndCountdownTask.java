@@ -2,6 +2,7 @@ package net.voxfun.vox.recon.tasks;
 
 import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameEndCountdownTask extends BukkitRunnable {
@@ -16,6 +17,10 @@ public class GameEndCountdownTask extends BukkitRunnable {
     @Override
     public void run() {
         if (gameManager.getGameState() != GameState.WON) {
+            Bukkit.getOnlinePlayers().forEach(players -> {
+                players.canSee(players);
+            });
+
             cancel();
             Time = 10;
             return;
