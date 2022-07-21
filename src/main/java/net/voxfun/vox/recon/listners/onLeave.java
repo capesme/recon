@@ -2,10 +2,10 @@ package net.voxfun.vox.recon.listners;
 
 import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
-import net.voxfun.vox.recon.manager.MinimumPlayerAmount;
 import net.voxfun.vox.recon.manager.scoreboardManager;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,17 +32,22 @@ public class onLeave implements Listener {
 
         if ((playersAmount - 1) < 2) {
             GameManager.cleanup();
+            scoreboardManager.updateLobbyLeave();
             gameManager.setGameState(GameState.LOBBY);
             Bukkit.broadcastMessage(FormatBroadcast.format("Game has been stopped because the minimum player requirement isn't met."));
         }
 
         event.setQuitMessage("");
-        Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s left the lobby", event.getPlayer().getName())));
         if (gameManager.getGameState() == GameState.ACTIVE) {
             DamagedListener.alivePlayers.remove(player);
             if (DamagedListener.alivePlayers.size() < 2) {
                 gameManager.setGameState(GameState.WON);
             }
+            if (player.getGameMode().equals(GameMode.SPECTATOR)) {
+                Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s left the lobby", event.getPlayer().getName())));
+            }
+        } else {
+            Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s left the lobby", event.getPlayer().getName())));
         }
     }
 }

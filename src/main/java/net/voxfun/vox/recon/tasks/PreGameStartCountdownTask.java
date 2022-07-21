@@ -31,18 +31,17 @@ public class PreGameStartCountdownTask extends BukkitRunnable {
             Bukkit.broadcastMessage(FormatBroadcast.format(preGameTime + " seconds until teleportation!"));
         }
 
-        if (preGameTime <= MinimumPlayerAmount.get()) {
+        if (preGameTime <= 1) {
+            scoreboardManager.clear();
             gameManager.setGameState(GameState.STARTING);
             Bukkit.broadcastMessage(FormatBroadcast.format("You're being teleported!"));
         }
 
         if (preGameTime > 1) {
             scoreboardManager.updateLobby();
-        } else {
-            scoreboardManager.clear();
         }
-
             preGameTime--;
+
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.setLevel(preGameTime);
         });

@@ -5,6 +5,8 @@ import net.voxfun.vox.recon.manager.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.block.data.type.Slab;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,33 +30,31 @@ public class PlayerMoveListener implements Listener {
         blockUnder.setY(blockUnder.getY() - 1);
         blockUnder2.setY(blockUnder2.getY() - 2);
 
-        if (blockUnder.getBlock().getType().equals(Material.BLACKSTONE_SLAB) || blockUnder2.getBlock().getType().equals(Material.BLACKSTONE_SLAB) && !(gameManager.getGameState().equals(GameState.ACTIVE))) {
-
-            for (Player allPlayers : Bukkit.getOnlinePlayers()) {
-                player.getPlayer().hidePlayer(allPlayers);
-            }
-
-
-            if (!player.getInventory().contains(Material.BOW)) {
-                player.getInventory().clear();
-
-                ItemStack Bow = new ItemStack(Material.BOW);
-                ItemMeta BowMeta = Bow.getItemMeta();
-                BowMeta.setUnbreakable(true);
-
-                Bow.setItemMeta(BowMeta);
-
-                player.getInventory().setItem(0, Bow);
-            }
-
-            if (!player.getInventory().contains(Material.ARROW)) {
-                ItemStack arrow = new ItemStack(Material.ARROW);
-
-                player.getInventory().setItem(9, arrow);
-            }
+        if (blockUnder.getBlock().getType().equals(Material.BLACKSTONE_SLAB)  || blockUnder2.getBlock().getType().equals(Material.BLACKSTONE_SLAB) && !(gameManager.getGameState().equals(GameState.ACTIVE))) {
+                for (Player allPlayers : Bukkit.getOnlinePlayers()) {
+                    player.getPlayer().hidePlayer(allPlayers);
+                }
 
 
-        } else {
+                if (!player.getInventory().contains(Material.BOW)) {
+                    player.getInventory().clear();
+
+                    ItemStack Bow = new ItemStack(Material.BOW);
+                    ItemMeta BowMeta = Bow.getItemMeta();
+                    BowMeta.setUnbreakable(true);
+
+                    Bow.setItemMeta(BowMeta);
+
+                    player.getInventory().setItem(0, Bow);
+                }
+
+                if (!player.getInventory().contains(Material.ARROW)) {
+                    ItemStack arrow = new ItemStack(Material.ARROW);
+
+                    player.getInventory().setItem(9, arrow);
+                }
+
+        } else if (gameManager.getGameState().equals(GameState.LOBBY) || gameManager.getGameState().equals(GameState.WAITING)) {
             for (Player allPlayers : Bukkit.getOnlinePlayers()) {
                 player.getPlayer().showPlayer(allPlayers);
             }

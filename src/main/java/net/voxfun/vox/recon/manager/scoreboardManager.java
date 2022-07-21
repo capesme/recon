@@ -1,5 +1,6 @@
 package net.voxfun.vox.recon.manager;
 
+import net.voxfun.vox.recon.mod.FormatBroadcast;
 import net.voxfun.vox.recon.tasks.PreGameStartCountdownTask;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,11 +50,11 @@ public class scoreboardManager {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s9 = objective.getScore("§§" );
+            Score s9 = objective.getScore("        " );
             s9.setScore(9);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s10 = objective.getScore("§§");
+            Score s10 = objective.getScore("       ");
             s10.setScore(10);
         }
 
@@ -67,61 +68,53 @@ public class scoreboardManager {
         }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s7 = objective.getScore("§§" );
+            Score s7 = objective.getScore("      " );
             s7.setScore(7);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s8 = objective.getScore("§§" );
-            s8.setScore(9);
-        }
-
-        if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s7 = objective.getScore("Starting in " + ChatColor.GREEN + "00:" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " if" );
-            s7.setScore(7);
-        }
-        if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s8 = objective.getScore("Starting in " + ChatColor.GREEN + "00:" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " to" );
+            Score s8 = objective.getScore("     " );
             s8.setScore(8);
         }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
+            Score s7 = objective.getScore("Starting in " + ChatColor.GREEN + "00:" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " if" );
+            s7.setScore(6);
+        }
+        if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
+            Score s8 = objective.getScore("Starting in " + ChatColor.GREEN + "00:" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " to" );
+            s8.setScore(7);
+        }
+
+        if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
             Score s6 = objective.getScore( ChatColor.GREEN + "" + (MinimumPlayerAmount.get() - Bukkit.getOnlinePlayers().size()) + ChatColor.WHITE + " more players join." );
-            s6.setScore(6);
+            s6.setScore(5);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
             Score s7 = objective.getScore( "allow time for" );
-            s7.setScore(7);
+            s7.setScore(6);
         }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
             Score s5 = objective.getScore(ChatColor.WHITE + "" );
-            s5.setScore(5);
+            s5.setScore(4);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
             Score s6 = objective.getScore( "additional players." );
-            s6.setScore(6);
+            s6.setScore(5);
         }
 
-        if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s4 = objective.getScore("Game: " + ChatColor.GREEN + "Recon" );
-            s4.setScore(4);
-        }
-        if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s5 = objective.getScore( "§§" );
-            s5.setScore(5);
-        }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s3 = objective.getScore("§§" );
+            Score s3 = objective.getScore("    " );
             s3.setScore(3);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s4 = objective.getScore("Game: " + ChatColor.GREEN + "Recon" );
+            Score s4 = objective.getScore("   " );
             s4.setScore(4);
         }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s2 = objective.getScore("§§" );
+            Score s2 = objective.getScore("  " );
             s2.setScore(2);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
@@ -134,7 +127,7 @@ public class scoreboardManager {
             s1.setScore(1);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s2 = objective.getScore("§§" );
+            Score s2 = objective.getScore(" " );
             s2.setScore(2);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
@@ -161,81 +154,83 @@ public class scoreboardManager {
         for (String entry : scoreboard.getEntries()) if (objective.getScore(entry).getScore() == 8) scoreboard.resetScores(entry);
         for (String entry : scoreboard.getEntries()) if (objective.getScore(entry).getScore() == 9) scoreboard.resetScores(entry);
         for (String entry : scoreboard.getEntries()) if (objective.getScore(entry).getScore() == 10) scoreboard.resetScores(entry);
+        for (String entry : scoreboard.getEntries()) if (objective.getScore(entry).getScore() == 11) scoreboard.resetScores(entry);
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s9 = objective.getScore("§§" );
-            s9.setScore(9);
+            Score s10 = objective.getScore("       ");
+            s10.setScore(9);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s10 = objective.getScore("§§");
-            s10.setScore(10);
+            Score s11 = objective.getScore("      ");
+            s11.setScore(10);
         }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s8 = objective.getScore("Players: " + ChatColor.GREEN + "" + Bukkit.getOnlinePlayers().size() + "/" + MinimumPlayerAmount.get() );
-            s8.setScore(8);
+            Score s9 = objective.getScore("Players: " + ChatColor.GREEN + "" + Bukkit.getOnlinePlayers().size() + "/" + MinimumPlayerAmount.get() );
+            s9.setScore(8);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s9 = objective.getScore("Players: " + ChatColor.GREEN + "" + Bukkit.getOnlinePlayers().size() + "/" + MinimumPlayerAmount.get());
-            s9.setScore(9);
+            Score s10 = objective.getScore("Players: " + ChatColor.GREEN + "" + Bukkit.getOnlinePlayers().size() + "/" + MinimumPlayerAmount.get());
+            s10.setScore(9);
         }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s7 = objective.getScore("§§" );
-            s7.setScore(7);
+            Score s8 = objective.getScore("     ");
+            s8.setScore(7);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s8 = objective.getScore("§§" );
-            s8.setScore(9);
+            Score s9 = objective.getScore("    ");
+            s9.setScore(8);
         }
 
-        if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
+        if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get() && PreGameStartCountdownTask.preGameTime > 10) {
             Score s7 = objective.getScore("Starting in " + ChatColor.GREEN + "00:" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " if" );
-            s7.setScore(7);
+            s7.setScore(6);
         }
-        if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
+        if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get() && PreGameStartCountdownTask.preGameTime > 10) {
             Score s8 = objective.getScore("Starting in " + ChatColor.GREEN + "00:" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " to" );
-            s8.setScore(8);
+            s8.setScore(7);
+        }
+        if ((Bukkit.getOnlinePlayers().size()) < MinimumPlayerAmount.get() && PreGameStartCountdownTask.preGameTime <= 10) {
+            Score s7 = objective.getScore("Starting in " + ChatColor.GREEN + "00:0" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " if" );
+            s7.setScore(6);
+        }
+
+        if ((Bukkit.getOnlinePlayers().size()) >= MinimumPlayerAmount.get() && PreGameStartCountdownTask.preGameTime <= 10) {
+            Score s8 = objective.getScore("Starting in " + ChatColor.GREEN + "00:0" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " to" );
+            s8.setScore(7);
         }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
             Score s6 = objective.getScore( ChatColor.GREEN + "" + (MinimumPlayerAmount.get() - Bukkit.getOnlinePlayers().size()) + ChatColor.WHITE + " more players join." );
-            s6.setScore(6);
+            s6.setScore(5);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
             Score s7 = objective.getScore( "allow time for" );
-            s7.setScore(7);
+            s7.setScore(6);
         }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s5 = objective.getScore(ChatColor.WHITE + "" );
-            s5.setScore(5);
+            Score s5 = objective.getScore(ChatColor.WHITE + " " );
+            s5.setScore(4);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
             Score s6 = objective.getScore( "additional players." );
-            s6.setScore(6);
+            s6.setScore(5);
         }
 
-        if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s4 = objective.getScore("Game: " + ChatColor.GREEN + "Recon" );
-            s4.setScore(4);
-        }
-        if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s5 = objective.getScore( "§§" );
-            s5.setScore(5);
-        }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s3 = objective.getScore("§§" );
+            Score s3 = objective.getScore("Game: " + ChatColor.GREEN + "Recon" );
             s3.setScore(3);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s4 = objective.getScore("Game: " + ChatColor.GREEN + "Recon" );
+            Score s4 = objective.getScore("   ");
             s4.setScore(4);
         }
 
         if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s2 = objective.getScore("§§" );
+            Score s2 = objective.getScore("  ");
             s2.setScore(2);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
@@ -248,7 +243,7 @@ public class scoreboardManager {
             s1.setScore(1);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
-            Score s2 = objective.getScore("§§" );
+            Score s2 = objective.getScore(" " );
             s2.setScore(2);
         }
         if (Bukkit.getOnlinePlayers().size() >= MinimumPlayerAmount.get()) {
@@ -275,97 +270,98 @@ public class scoreboardManager {
         for (String entry : scoreboard.getEntries()) if (objective.getScore(entry).getScore() == 8) scoreboard.resetScores(entry);
         for (String entry : scoreboard.getEntries()) if (objective.getScore(entry).getScore() == 9) scoreboard.resetScores(entry);
         for (String entry : scoreboard.getEntries()) if (objective.getScore(entry).getScore() == 10) scoreboard.resetScores(entry);
+        for (String entry : scoreboard.getEntries()) if (objective.getScore((entry)).getScore() == 11) scoreboard.resetScores(entry);
 
-        if ((Bukkit.getOnlinePlayers().size() -1 ) < MinimumPlayerAmount.get()) {
-            Score s9 = objective.getScore("§§" );
-            s9.setScore(9);
+        if ((Bukkit.getOnlinePlayers().size() - 1) < MinimumPlayerAmount.get()) {
+            Score s10 = objective.getScore("         " );
+            s10.setScore(9);
         }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
-            Score s10 = objective.getScore("§§");
-            s10.setScore(10);
-        }
-
-        if ((Bukkit.getOnlinePlayers().size() -1 ) < MinimumPlayerAmount.get()) {
-            Score s8 = objective.getScore("Players: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size() -1 ) + "/" + MinimumPlayerAmount.get() );
-            s8.setScore(8);
-        }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
-            Score s9 = objective.getScore("Players: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size() -1 ) + "/" + MinimumPlayerAmount.get());
-            s9.setScore(9);
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get()) {
+            Score s11 = objective.getScore("        ");
+            s11.setScore(10);
         }
 
-        if ((Bukkit.getOnlinePlayers().size() -1 ) < MinimumPlayerAmount.get()) {
-            Score s7 = objective.getScore("§§" );
-            s7.setScore(7);
+        if ((Bukkit.getOnlinePlayers().size() - 1) < MinimumPlayerAmount.get()) {
+            Score s9 = objective.getScore("Players: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size() - 1 ) + "/" + MinimumPlayerAmount.get() );
+            s9.setScore(8);
         }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
-            Score s8 = objective.getScore("§§" );
-            s8.setScore(9);
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get()) {
+            Score s10 = objective.getScore("Players: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size() - 1 ) + "/" + MinimumPlayerAmount.get());
+            s10.setScore(9);
         }
 
-        if ((Bukkit.getOnlinePlayers().size() -1 ) < MinimumPlayerAmount.get()) {
+        if ((Bukkit.getOnlinePlayers().size() - 1) < MinimumPlayerAmount.get()) {
+            Score s8 = objective.getScore("       ");
+            s8.setScore(7);
+        }
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get()) {
+            Score s9 = objective.getScore("      " );
+            s9.setScore(8);
+        }
+
+        if ((Bukkit.getOnlinePlayers().size() - 1) < MinimumPlayerAmount.get() && PreGameStartCountdownTask.preGameTime > 10) {
             Score s7 = objective.getScore("Starting in " + ChatColor.GREEN + "00:" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " if" );
-            s7.setScore(7);
+            s7.setScore(6);
         }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get() && PreGameStartCountdownTask.preGameTime > 10) {
             Score s8 = objective.getScore("Starting in " + ChatColor.GREEN + "00:" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " to" );
-            s8.setScore(8);
+            s8.setScore(7);
         }
 
-        if (Bukkit.getOnlinePlayers().size() < MinimumPlayerAmount.get()) {
-            Score s6 = objective.getScore( ChatColor.GREEN + "" + (MinimumPlayerAmount.get() - (Bukkit.getOnlinePlayers().size() -1 )) + ChatColor.WHITE + " more players join." );
-            s6.setScore(6);
+        if ((Bukkit.getOnlinePlayers().size() - 1) < MinimumPlayerAmount.get() && PreGameStartCountdownTask.preGameTime <= 10) {
+            Score s7 = objective.getScore("Starting in " + ChatColor.GREEN + "00:0" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " if" );
+            s7.setScore(6);
         }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get() && PreGameStartCountdownTask.preGameTime <= 10) {
+            Score s8 = objective.getScore("Starting in " + ChatColor.GREEN + "00:0" + (PreGameStartCountdownTask.preGameTime  - 1) + ChatColor.WHITE + " to" );
+            s8.setScore(7);
+        }
+
+        if ((Bukkit.getOnlinePlayers().size() - 1) < MinimumPlayerAmount.get()) {
+            Score s6 = objective.getScore( ChatColor.GREEN + "" + (MinimumPlayerAmount.get() - (Bukkit.getOnlinePlayers().size() - 1)) + ChatColor.WHITE + " more players join." );
+            s6.setScore(5);
+        }
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get()) {
             Score s7 = objective.getScore( "allow time for" );
-            s7.setScore(7);
+            s7.setScore(6);
         }
 
-        if ((Bukkit.getOnlinePlayers().size() -1 ) < MinimumPlayerAmount.get()) {
+        if ((Bukkit.getOnlinePlayers().size() - 1) < MinimumPlayerAmount.get()) {
             Score s5 = objective.getScore(ChatColor.WHITE + "" );
-            s5.setScore(5);
+            s5.setScore(4);
         }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get()) {
             Score s6 = objective.getScore( "additional players." );
-            s6.setScore(6);
+            s6.setScore(5);
         }
 
-        if ((Bukkit.getOnlinePlayers().size() -1 ) < MinimumPlayerAmount.get()) {
-            Score s4 = objective.getScore("Game: " + ChatColor.GREEN + "Recon" );
-            s4.setScore(4);
-        }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
-            Score s5 = objective.getScore( "§§" );
-            s5.setScore(5);
-        }
-
-        if ((Bukkit.getOnlinePlayers().size() -1 ) < MinimumPlayerAmount.get()) {
-            Score s3 = objective.getScore("§§" );
+        if ((Bukkit.getOnlinePlayers().size() - 1) < MinimumPlayerAmount.get()) {
+            Score s3 = objective.getScore("Game: " + ChatColor.GREEN + "Recon" );
             s3.setScore(3);
         }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
-            Score s4 = objective.getScore("Game: " + ChatColor.GREEN + "Recon" );
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get()) {
+            Score s4 = objective.getScore("   " );
             s4.setScore(4);
         }
 
-        if ((Bukkit.getOnlinePlayers().size() -1 ) < MinimumPlayerAmount.get()) {
-            Score s2 = objective.getScore("§§" );
+        if ((Bukkit.getOnlinePlayers().size() - 1) < MinimumPlayerAmount.get()) {
+            Score s2 = objective.getScore("  " );
             s2.setScore(2);
         }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get()) {
             Score s3 = objective.getScore("Game: " + ChatColor.GREEN + "Recon" );
             s3.setScore(3);
         }
 
-        if ((Bukkit.getOnlinePlayers().size() -1 ) < MinimumPlayerAmount.get()) {
+        if ((Bukkit.getOnlinePlayers().size() - 1) < MinimumPlayerAmount.get()) {
             Score s1 = objective.getScore(ChatColor.YELLOW + "voxfun.net" );
             s1.setScore(1);
         }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
-            Score s2 = objective.getScore("§§" );
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get()) {
+            Score s2 = objective.getScore(" " );
             s2.setScore(2);
         }
-        if ((Bukkit.getOnlinePlayers().size() -1 ) >= MinimumPlayerAmount.get()) {
+        if ((Bukkit.getOnlinePlayers().size() - 1) >= MinimumPlayerAmount.get()) {
             Score s1 = objective.getScore(ChatColor.YELLOW + "voxfun.net" );
             s1.setScore(1);
         }

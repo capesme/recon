@@ -88,7 +88,7 @@ public final class index extends JavaPlugin {
 // - game setting to interact with entities. - OK
 // - disallowedBlockInteractions: ["*"], ["OAK_DOOR"] - OK
 // - custom game time - OK
-// - fix tied games - OK .. somewhat
+// - fix tied games - OK
 // - kill streaks - OK .. somewhat
 // - Aiming game in lobby - OK .. somewhat
 // - Leaderboard in game

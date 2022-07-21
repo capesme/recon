@@ -39,7 +39,6 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>C:\Users\loott\Documents\minecraftServers\1.18.1_paper_oitq\plugins\recon.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>

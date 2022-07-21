@@ -2,9 +2,11 @@ package net.voxfun.vox.recon.tasks;
 
 import net.voxfun.vox.recon.manager.GameManager;
 import net.voxfun.vox.recon.manager.GameState;
+import net.voxfun.vox.recon.manager.scoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 public class GameStartCountdownTask extends BukkitRunnable {
     private final GameManager gameManager;
@@ -36,6 +38,8 @@ public class GameStartCountdownTask extends BukkitRunnable {
         Bukkit.getOnlinePlayers().forEach(player -> player.setLevel(timeLeft));
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
+            scoreboardManager.inGameCreate();
+            scoreboardManager.inGameAddPlayer(player);
         });
     }
 }

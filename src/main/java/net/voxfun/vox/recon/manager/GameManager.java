@@ -84,8 +84,10 @@ public class GameManager {
                     }
                     player.setSaturation(player.getSaturation() + 100);
                     player.setInvulnerable(true);
-                    scoreboardManager.inLobbyScoreboardCreate();
+
+                    player.setScoreboard(scoreboardManager.inLobbyScoreboardCreate());
                     scoreboardManager.inLobbyAddPlayer(player);
+
                     scoreboardManager.updateLobby();
                 });
                 maps.forEach((mapName, doc) -> {
@@ -135,6 +137,7 @@ public class GameManager {
         DamagedListener.deaths.clear();
         DamagedListener.kills.clear();
         scoreboardManager.clear();
+        PreGameStartCountdownTask.preGameTime = 61;
         if (gameStartCountdownTask != null) {
             gameStartCountdownTask.cancel();
             gameStartCountdownTask = null;
@@ -155,6 +158,10 @@ public class GameManager {
         playerManager.clearKits(true);
 
         final World[] currentWorld = {null};
+
+        for (Player allPlayers : Bukkit.getOnlinePlayers()) {
+            allPlayers.showPlayer(allPlayers);
+        }
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.setInvulnerable(true);
@@ -255,6 +262,9 @@ public class GameManager {
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.getInventory().clear();
             player.setInvulnerable(true);
+            for (Player allPlayers : Bukkit.getOnlinePlayers()) {
+                player.showPlayer(allPlayers);
+            }
             scoreboardManager.clear();
             PlayerManager.setGameMode(player, GameMode.SPECTATOR);
             if (Bukkit.getScoreboardManager().getMainScoreboard().getTeam(player.getUniqueId().toString()) != null) {

@@ -23,11 +23,11 @@ commands:
 permissions:
   recon.specs.seeChat:
     description: Allows you to see spectator chat!
-  recon.specs.see:
+  recon.specs.seeSpecs:
     description: Allows you to see spectators!
   recon.specs.*:
     children:
-      recon.specs.see: true
+      recon.specs.seeSpecs: true
       recon.specs.seeChat: true
 
 
