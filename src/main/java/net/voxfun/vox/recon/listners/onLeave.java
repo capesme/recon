@@ -5,6 +5,7 @@ import net.voxfun.vox.recon.manager.GameState;
 import net.voxfun.vox.recon.manager.scoreboardManager;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -43,11 +44,14 @@ public class onLeave implements Listener {
             if (DamagedListener.alivePlayers.size() < 2) {
                 gameManager.setGameState(GameState.WON);
             }
-            if (player.getGameMode().equals(GameMode.SPECTATOR)) {
-                Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s left the lobby", event.getPlayer().getName())));
-            }
-        } else {
-            Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s left the lobby", event.getPlayer().getName())));
+            for (Player players : Bukkit.getOnlinePlayers()) {
+                    if (!players.getGameMode().equals(GameMode.SPECTATOR) && !players.hasPermission("recon.specs.seeChat")) {
+                    } else {
+                        players.sendMessage(FormatBroadcast.specFormat(player.getName() + "left the game."));
+                    }
+                }
+            } else {
+            Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s left the lobby.", event.getPlayer().getName())));
         }
     }
 }

@@ -45,19 +45,21 @@ public class onJoin implements Listener {
         player.setLevel(0);
         player.teleport(new Location(player.getWorld(),215.5, 40, -47));
         event.setJoinMessage("");
-        String formatted = FormatBroadcast.format(String.format("%s joined the lobby " + ChatColor.GREEN + "(" + playersAmount + "/15)", event.getPlayer().getName()));
 
         if (gameManager.getGameState() == GameState.ACTIVE) {
             scoreboardManager.inGameAddPlayer(event.getPlayer());
-            event.getPlayer().sendMessage(formatted);
             event.getPlayer().sendMessage("There is a game currently active, please wait until it ends.");
             event.getPlayer().setGameMode(GameMode.SPECTATOR);
             for (Player allPlayers : Bukkit.getOnlinePlayers()) {
                 if (!allPlayers.getGameMode().equals(GameMode.SPECTATOR) && !allPlayers.hasPermission("recon.specs.seeSpecs")) {
                     allPlayers.hidePlayer(player);
                 }
-             }
 
+                if (!allPlayers.getGameMode().equals(GameMode.SPECTATOR) && !allPlayers.hasPermission("recon.specs.seeChat")) {
+                } else {
+                    allPlayers.sendMessage(FormatBroadcast.specFormat(player.getName() + "joined the game."));
+                }
+            }
         } else if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.WAITING) {
             Map<String, Document> maps = MapManager.getMaps();
             maps.forEach((mapName, doc) -> {
@@ -79,8 +81,8 @@ public class onJoin implements Listener {
 
                     scoreboardManager.updateLobby();
                 });
-            };
-            Bukkit.broadcastMessage(formatted);
+            }
+            Bukkit.broadcastMessage(FormatBroadcast.format(player.getName() + " joined the lobby " + ChatColor.GREEN + "(" + playersAmount + "/15)"));
         }
     }
 }

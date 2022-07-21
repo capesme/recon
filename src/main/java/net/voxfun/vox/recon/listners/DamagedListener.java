@@ -72,9 +72,9 @@ public class DamagedListener implements Listener {
         killer.setSaturation(killer.getSaturation() + 28);
 
         if (killer != killed) {
-            Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s has killed %s.", killer.getName(), killed.getName())));
+            Bukkit.broadcastMessage(FormatBroadcast.inGameFormat(String.format("%s has killed %s.", killer.getName(), killed.getName())));
         } else {
-            Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s aimed poorly...", killer.getName())));
+            Bukkit.broadcastMessage(FormatBroadcast.inGameFormat(String.format("%s aimed poorly...", killer.getName())));
         }
 
         if (killstreak.get(killed) != null) {
@@ -94,7 +94,7 @@ public class DamagedListener implements Listener {
                         allPlayers.hidePlayer(killed);
                     }
                 }
-                Bukkit.broadcastMessage(FormatBroadcast.format(ChatColor.RED + String.format("%s has been eliminated.", killed.getName())));
+                Bukkit.broadcastMessage(FormatBroadcast.inGameFormat(ChatColor.RED + String.format("%s has been eliminated.", killed.getName())));
                 alivePlayers.remove(killed);
             }
         }
