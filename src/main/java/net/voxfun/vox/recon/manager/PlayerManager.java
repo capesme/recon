@@ -41,11 +41,25 @@ public class PlayerManager {
         Integer deaths = DamagedListener.deaths.get(player);
         if (deaths == null) deaths = 0;
         player.getInventory().clear();
-        player.getInventory().addItem(
-                new ItemStack(Material.STONE_SWORD),
-                new ItemStack(Material.BOW),
-                new ItemStack(Material.ARROW)
-        );
+
+        //Give Stone Sword
+        ItemStack StoneSword = new ItemStack(Material.STONE_SWORD);
+        ItemMeta StoneSwordMeta = StoneSword.getItemMeta();
+        StoneSwordMeta.setUnbreakable(true);
+        StoneSword.setItemMeta(StoneSwordMeta);
+        player.getInventory().setItem(0, StoneSword);
+
+        //Give Bow
+        ItemStack Bow = new ItemStack(Material.BOW);
+        ItemMeta BowMeta = Bow.getItemMeta();
+        BowMeta.setUnbreakable(true);
+        Bow.setItemMeta(BowMeta);
+        player.getInventory().setItem(1, Bow);
+
+        //Give Player Arrow
+        ItemStack Arrow = new ItemStack(Material.ARROW);
+        player.getInventory().setItem(9, Arrow);
+
         ItemStack LivesCounter = new ItemStack(Material.RED_DYE);
         ItemMeta LivesCounterMeta = LivesCounter.getItemMeta();
         ChatColor ColorBasedOnLives = ChatColor.GREEN;
