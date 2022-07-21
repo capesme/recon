@@ -57,7 +57,7 @@ public class onJoin implements Listener {
 
                 if (!allPlayers.getGameMode().equals(GameMode.SPECTATOR) && !allPlayers.hasPermission("recon.specs.seeChat")) {
                 } else {
-                    allPlayers.sendMessage(FormatBroadcast.specFormat(player.getName() + "joined the game."));
+                    allPlayers.sendMessage(FormatBroadcast.specFormat(player.getName() + " joined the game."));
                 }
             }
         } else if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.WAITING) {

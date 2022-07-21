@@ -47,7 +47,7 @@ public class onLeave implements Listener {
             for (Player players : Bukkit.getOnlinePlayers()) {
                     if (!players.getGameMode().equals(GameMode.SPECTATOR) && !players.hasPermission("recon.specs.seeChat")) {
                     } else {
-                        players.sendMessage(FormatBroadcast.specFormat(player.getName() + "left the game."));
+                        players.sendMessage(FormatBroadcast.specFormat(player.getName() + " left the game."));
                     }
                 }
             } else {
