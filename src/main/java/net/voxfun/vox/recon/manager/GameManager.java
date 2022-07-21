@@ -207,6 +207,7 @@ public class GameManager {
             if (setting.containsKey("ALLOWED_INTERACTED_BLOCKS")) { new allowedInteractionBlockList(setting.getList("ALLOWED_INTERACTED_BLOCKS", String.class)); }
         });
         List<Object> playerDocumentF = new ArrayList<>();
+
         Bukkit.getOnlinePlayers().forEach(player -> {
             DamagedListener.alivePlayers.add(player);
             Random rand = new Random();
@@ -216,14 +217,12 @@ public class GameManager {
             Integer y = xyz.getInteger("y");
             Integer z = xyz.getInteger("z");
             Location Spawn = new Location(player.getWorld(), x, y, z);
-            Player Player = player;
             World World = player.getWorld();
 
             if (World.getNearbyEntities(Spawn, 1.5, 2.5 ,1.5).size() == 0) {
                 player.teleport(Spawn);
-                return;
             } else {
-                new RespawnOKTask(new Location(World, x, y, z), Player).runTaskTimer(plugin, 1, 20);
+                new RespawnOKTask(new Location(World, x, y, z), player).runTaskTimer(plugin, 1, 20);
             }
 
             playerDocumentF.add(
