@@ -9,9 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -36,6 +34,7 @@ public class AimPraticeMinigame extends BukkitRunnable {
 
         World World = Bukkit.getWorld("OITC");
         int allZombies = World.getEntitiesByClass(Zombie.class).size();
+
         Document selectedMap;
         if (mapCache.get("ZombieSpawn") != null) {
             selectedMap = mapCache.get("ZombieSpawn");
@@ -56,13 +55,27 @@ public class AimPraticeMinigame extends BukkitRunnable {
 
         // hardcoded to test if it works, you can update the database when you want.
         x = x + .5;
-        y = y + .5;
+        z = z + .5;
 
         Location Spawn = new Location(World, x, y, z);
 
-        if (allZombies < 4 && (World.getNearbyEntities(Spawn, 1, 2 ,1).size() == 0)) {
+        for (Arrow arrow : World.getEntitiesByClass(Arrow.class)) {
+            arrow.setCritical(false);
+
+            if (arrow.isInBlock()) {
+                arrow.remove();
+            }
+        }
+
+        for (Chicken chicken : World.getEntitiesByClass(Chicken.class)) {
+             chicken.setSilent(true);
+             chicken.setGlowing(true);
+        }
+
+            if (allZombies < 4 && (World.getNearbyEntities(Spawn, 1, 2 ,1).size() == 0)) {
             World.spawnEntity(Spawn, EntityType.ZOMBIE);
         }
+
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!player.getPlayer().getInventory().contains(Material.ARROW) && player.getPlayer().getInventory().contains(Material.BOW)) {
@@ -84,16 +97,12 @@ public class AimPraticeMinigame extends BukkitRunnable {
             zombie.getEquipment().clear();
             zombie.setSilent(true);
             zombie.setVisualFire(false);
-
-            Location lookHere = new Location(World,204, 40, -36);
-            float yaw = lookHere.getYaw();
-            zombie.getLocation().setYaw(yaw);
-            zombie.teleport(zombie);
+            zombie.setRotation(-125, 0);
         });
     }
 
     public void end() {
         World World = Bukkit.getWorld("OITC");
-        World.getEntitiesByClass(Zombie.class).forEach(zombie -> zombie.remove());
+        World.getEntitiesByClass(Zombie.class).forEach(Entity::remove);
     }
 }

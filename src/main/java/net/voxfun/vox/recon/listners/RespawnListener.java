@@ -38,9 +38,12 @@ public class RespawnListener implements Listener {
             List<Document> mapSpawns = selectedMap.getList("spawns", Document.class);
             Random rand = new Random();
             Document xyz = mapSpawns.get(rand.nextInt(mapSpawns.size()));
-            Integer x = xyz.getInteger("x");
-            Integer y = xyz.getInteger("y");
-            Integer z = xyz.getInteger("z");
+            double x = xyz.getInteger("x");
+            double y = xyz.getInteger("y");
+            double z = xyz.getInteger("z");
+
+            x = x + .5;
+            z = z + .5;
 
             Location Spawn = new Location(World, x, y, z);
 

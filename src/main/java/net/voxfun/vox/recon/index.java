@@ -36,6 +36,7 @@ public final class index extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerChatListener(gameManager), this);
         getServer().getPluginManager().registerEvents(new HandSwapListener(gameManager), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(gameManager, this), this);
+        getServer().getPluginManager().registerEvents(new CosmeticsMenuManager(gameManager), this);
 
         new InGameStatsManager(gameManager);
 
@@ -44,6 +45,7 @@ public final class index extends JavaPlugin {
         getCommand("vote").setExecutor(new VoteCommand(gameManager));
         getCommand("vote").setTabCompleter(new VoteCommandTabComplete());
         getCommand("reloadDb").setExecutor(new ReloadDBCommand(gameManager));
+        getCommand("cosmeticMenu").setExecutor(new CosmeticsMenu(gameManager));
 
         new DontHurtEntity();
         new MinimumPlayerAmount();

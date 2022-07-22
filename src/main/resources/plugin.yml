@@ -20,6 +20,10 @@ commands:
   vote:
     description: Votes for a specified map
     usage: vote <map>
+
+  cosmeticMenu:
+    description: Allows you to die like a pro!!
+    usage: cosmeticMenu
 permissions:
   recon.specs.seeChat:
     description: Allows you to see spectator chat!

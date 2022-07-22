@@ -25,18 +25,11 @@ public class onLeave implements Listener {
     private void onLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         playersAmount = Bukkit.getOnlinePlayers().size();
+        int timer = 2;
 
         if (gameManager.getGameState()  == GameState.LOBBY || gameManager.getGameState() == GameState.STARTING) {
             scoreboardManager.updateLobbyLeave();
 }
-
-
-        if ((playersAmount - 1) < 2) {
-            GameManager.cleanup();
-            scoreboardManager.updateLobbyLeave();
-            gameManager.setGameState(GameState.LOBBY);
-            Bukkit.broadcastMessage(FormatBroadcast.format("Game has been stopped because the minimum player requirement isn't met."));
-        }
 
         event.setQuitMessage("");
         if (gameManager.getGameState() == GameState.ACTIVE) {
@@ -52,6 +45,22 @@ public class onLeave implements Listener {
                 }
             } else {
             Bukkit.broadcastMessage(FormatBroadcast.format(String.format("%s left the lobby.", event.getPlayer().getName())));
+        }
+
+        if ((playersAmount - 1) < 2) {
+            GameManager.cleanup();
+            gameManager.setGameState(GameState.LOBBY);
+            if (gameManager.getGameState() == GameState.ACTIVE) {
+                Bukkit.broadcastMessage(FormatBroadcast.format("Game has been stopped because the minimum player requirement isn't met."));
+            }
+
+            do {
+                timer--;
+                if (timer == 1) {
+                    scoreboardManager.updateLobbyLeave();
+                }
+
+            } while (timer > 0);
         }
     }
 }

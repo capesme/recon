@@ -9,6 +9,7 @@ import net.voxfun.vox.recon.listners.DamagedListener;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import net.voxfun.vox.recon.mod.GenerateId;
 import net.voxfun.vox.recon.tasks.*;
+import net.voxfun.vox.recon.tasks.cosmetic.DeathSoundTask;
 import org.bson.Document;
 import org.bson.json.JsonObject;
 import org.bson.types.ObjectId;
@@ -40,6 +41,7 @@ public class GameManager {
     private static LobbyCheck lobbyCheck;
     public static AimPraticeMinigame aimPraticeMinigame;
     public static RespawnOKTask respawnOKTask;
+    public static DeathSoundTask deathSoundTask;
     public String activeGameId = null;
     private static Location lastLocation = null;
 
@@ -211,9 +213,13 @@ public class GameManager {
             Random rand = new Random();
             Document xyz = mapSpawnsF.get(rand.nextInt(mapSpawnsF.size()));
             if (xyz == null) { xyz = mapSpawnsF.get(rand.nextInt(mapSpawnsF.size())); }
-            Integer x = xyz.getInteger("x");
-            Integer y = xyz.getInteger("y");
-            Integer z = xyz.getInteger("z");
+            double x = xyz.getInteger("x");
+            double y = xyz.getInteger("y");
+            double z = xyz.getInteger("z");
+
+            x = x + .5;
+            z = z + .5;
+
             Location Spawn = new Location(player.getWorld(), x, y, z);
             World World = player.getWorld();
 
@@ -234,6 +240,10 @@ public class GameManager {
             player.teleport(Spawn);
             PlayerManager.setGame(player, gameIdF);
             teamF.addEntry(player.getName());
+
+            for (Player allPlayers : Bukkit.getOnlinePlayers()) {
+                player.showPlayer(allPlayers);
+            }
         });
         Document gameF = new Document("_id", new ObjectId());
         gameF.append("id", gameIdF);
