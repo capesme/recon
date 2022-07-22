@@ -65,11 +65,10 @@ public class GameManager {
                     lobbyCheck.runTaskTimer(plugin, 5, 40);
                 }
 
-                if (getGameState() == GameState.LOBBY || getGameState() == GameState.WAITING); {
-                    aimPraticeMinigame = new AimPraticeMinigame(this);
-                    aimPraticeMinigame.runTaskTimer(plugin, 0, 0);
-                }
-
+//                if (getGameState() == GameState.LOBBY || getGameState() == GameState.WAITING); {
+//                    aimPraticeMinigame = new AimPraticeMinigame(this);
+//                    aimPraticeMinigame.runTaskTimer(plugin, 0, 0);
+//                }
 
                 MapManager.reloadMaps();
                 Map<String, Document> maps = MapManager.getMaps();
@@ -99,10 +98,10 @@ public class GameManager {
                 Bukkit.getOnlinePlayers().forEach(player -> player.setLevel(0));
                 break;
             case WAITING:
-                if (getGameState() == GameState.LOBBY || getGameState() == GameState.WAITING); {
-                aimPraticeMinigame = new AimPraticeMinigame(this);
-                aimPraticeMinigame.runTaskTimer(plugin, 0, 0);
-            }
+//                if (getGameState() == GameState.LOBBY || getGameState() == GameState.WAITING); {
+//                    aimPraticeMinigame = new AimPraticeMinigame(this);
+//                    aimPraticeMinigame.runTaskTimer(plugin, 0, 0);
+//                }
 
                 preGameStart(false);
                 break;
@@ -207,7 +206,6 @@ public class GameManager {
             if (setting.containsKey("ALLOWED_INTERACTED_BLOCKS")) { new allowedInteractionBlockList(setting.getList("ALLOWED_INTERACTED_BLOCKS", String.class)); }
         });
         List<Object> playerDocumentF = new ArrayList<>();
-
         Bukkit.getOnlinePlayers().forEach(player -> {
             DamagedListener.alivePlayers.add(player);
             Random rand = new Random();

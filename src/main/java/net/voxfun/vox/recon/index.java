@@ -6,6 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import net.voxfun.vox.recon.commands.*;
 import net.voxfun.vox.recon.listners.*;
 import net.voxfun.vox.recon.manager.*;
+import net.voxfun.vox.recon.tasks.AimPraticeMinigame;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,7 +35,7 @@ public final class index extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(gameManager), this);
         getServer().getPluginManager().registerEvents(new PlayerChatListener(gameManager), this);
         getServer().getPluginManager().registerEvents(new HandSwapListener(gameManager), this);
-        getServer().getPluginManager().registerEvents(new PlayerMoveListener(gameManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveListener(gameManager, this), this);
 
         new InGameStatsManager(gameManager);
 
