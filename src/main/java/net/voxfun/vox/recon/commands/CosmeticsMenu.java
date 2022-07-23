@@ -14,7 +14,6 @@ public class CosmeticsMenu implements CommandExecutor {
     public CosmeticsMenu(GameManager gameManager) { this.gameManager = gameManager; }
     @Override
     public boolean onCommand(CommandSender Player, Command command, String label, String[] args) {
-
         CosmeticsMenuManager.CosmeticsMenu((Player) Player);
         return true;
     }

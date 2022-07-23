@@ -31,7 +31,6 @@ public class PlayerChatListener implements Listener {
 
             event.setFormat(ChatColor.GRAY + "[SPECTATOR] " + player.getName() + ": " + message);
             event.setMessage(message);
-
         }
     }
 }

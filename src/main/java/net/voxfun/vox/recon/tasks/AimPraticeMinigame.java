@@ -42,7 +42,6 @@ public class AimPraticeMinigame extends BukkitRunnable {
             MongoCollection<Document> mapCollection = index.database.getCollection("recon_maps");
             selectedMap = mapCollection.find(new Document("mapName", "ZombieSpawn")).first();
             mapCache.put("ZombieSpawn", selectedMap);
-            System.out.println(mapCache.get("ZombieSpawn"));
         }
 
         List<Document> mapSpawns = selectedMap.getList("spawns", Document.class);
@@ -83,13 +82,6 @@ public class AimPraticeMinigame extends BukkitRunnable {
                 player.getPlayer().getInventory().setItem(9, arrow);
             }
         }
-
-        // This was causing errors
-//        for (Arrow arrows : World.getEntitiesByClass(Arrow.class)) {
-//            if (!(arrows.getAttachedBlock().getType() == Material.DRAGON_EGG)) {
-//                arrows.remove();
-//            }
-//        }
 
         World.getEntitiesByClass(Zombie.class).forEach(zombie -> {
             zombie.setAI(false);

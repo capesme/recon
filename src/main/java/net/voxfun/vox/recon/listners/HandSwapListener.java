@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 public class HandSwapListener implements Listener {
-
     private GameManager gameManager;
 
     public HandSwapListener(GameManager gameManager) {
@@ -16,9 +15,6 @@ public class HandSwapListener implements Listener {
 
     @EventHandler
     public void onSwap (PlayerSwapHandItemsEvent event) {
-        if (!(event.getPlayer().getGameMode().equals(GameMode.CREATIVE))) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(!(event.getPlayer().getGameMode().equals(GameMode.CREATIVE)));
     }
-
 }

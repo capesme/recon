@@ -17,47 +17,22 @@ public class ItemDropListener implements Listener {
         this.gameManager = gameManager;
     }
 
-    public void DisallowedItems() {
-    }
-
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
         if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) { return; }
         Player player = event.getPlayer();
-        GameMode gamemode = player.getGameMode();
-        int slotZero = 0;
-        int slotOne = 1;
-        int slotSeven = 7;
-        int slotEight = 8;
-        if (player.getInventory().getHeldItemSlot() == slotZero) {
-            event.setCancelled(true);
-        }
-        if (player.getInventory().getHeldItemSlot() == slotOne) {
-            event.setCancelled(true);
-        }
-        if (player.getInventory().getHeldItemSlot() == slotSeven) {
-            event.setCancelled(true);
-        }
-        if (player.getInventory().getHeldItemSlot() == slotEight) {
+        if (player.getInventory().getHeldItemSlot() == 0 || player.getInventory().getHeldItemSlot() == 1 || player.getInventory().getHeldItemSlot() == 7 || player.getInventory().getHeldItemSlot() == 8) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onPickup(PlayerPickupArrowEvent event) {
-        if (gameManager.getGameState() == GameState.ACTIVE) {
-            event.setCancelled(true);
-        } else {
-            event.setCancelled(false);
-        }
+        event.setCancelled(gameManager.getGameState() == GameState.ACTIVE);
     }
 
     @EventHandler
     public void onInventoryChange (InventoryClickEvent event) {
-        if (gameManager.getGameState() == GameState.LOBBY && !(event.getWhoClicked().getGameMode().equals(GameMode.CREATIVE))) {
-            event.setCancelled(true);
-        } else {
-            event.setCancelled(false);
-        }
+        event.setCancelled(gameManager.getGameState() == GameState.LOBBY && !(event.getWhoClicked().getGameMode().equals(GameMode.CREATIVE)));
     }
 }

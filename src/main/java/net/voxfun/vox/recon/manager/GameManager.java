@@ -68,11 +68,6 @@ public class GameManager {
                     lobbyCheck.runTaskTimer(plugin, 5, 40);
                 }
 
-//                if (getGameState() == GameState.LOBBY || getGameState() == GameState.WAITING); {
-//                    aimPraticeMinigame = new AimPraticeMinigame(this);
-//                    aimPraticeMinigame.runTaskTimer(plugin, 0, 0);
-//                }
-
                 MapManager.reloadMaps();
                 Map<String, Document> maps = MapManager.getMaps();
                 Bukkit.getWorlds().forEach(world -> world.setDifficulty(Difficulty.EASY));
@@ -101,11 +96,6 @@ public class GameManager {
                 Bukkit.getOnlinePlayers().forEach(player -> player.setLevel(0));
                 break;
             case WAITING:
-//                if (getGameState() == GameState.LOBBY || getGameState() == GameState.WAITING); {
-//                    aimPraticeMinigame = new AimPraticeMinigame(this);
-//                    aimPraticeMinigame.runTaskTimer(plugin, 0, 0);
-//                }
-
                 preGameStart(false);
                 break;
             case ACTIVE:

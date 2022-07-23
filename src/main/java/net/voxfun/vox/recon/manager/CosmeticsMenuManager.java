@@ -1,7 +1,10 @@
 package net.voxfun.vox.recon.manager;
 
 import net.voxfun.vox.recon.templates.MenuItemTemplate;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,61 +12,54 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.net.MalformedURLException;
-import java.util.Objects;
 
 import static org.bukkit.Material.*;
 
 public class CosmeticsMenuManager implements Listener {
-
     private final GameManager gameManager;
 
     public CosmeticsMenuManager(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 
-    @EventHandler
-    public void onClick(PlayerInteractEvent event) {
-        Action Action = event.getAction();
-        Material Block = event.getMaterial();
-        ItemStack Item = event.getItem();
-        if (Action == Action.PHYSICAL || Item == null || Item.getType() == Material.AIR) return;
-        if (Action == Action.RIGHT_CLICK_AIR || Action == Action.RIGHT_CLICK_BLOCK) {
-            if (Item.getType() == ENDER_CHEST && Item.getItemMeta().getDisplayName().equalsIgnoreCase("Cosmetic Menu")) {
-                CosmeticsMenu(event.getPlayer());
-            } else if (gameManager.getGameState().equals(GameState.LOBBY) && Block.equals(STONE_BUTTON)) {
-                CosmeticsMenu(event.getPlayer());
-            } else if (gameManager.getGameState().equals(GameState.WAITING) && Block.equals(STONE_BUTTON)) {
-                CosmeticsMenu(event.getPlayer());
-            }
-        }
-    }
+//    @EventHandler
+//    public void onClick(PlayerInteractEvent event) {
+//        Action Action = event.getAction();
+//        Material Block = event.getMaterial();
+//        ItemStack Item = event.getItem();
+//        if (Action == org.bukkit.event.block.Action.PHYSICAL || Item == null || Item.getType() == Material.AIR) return;
+//        if (Action == org.bukkit.event.block.Action.RIGHT_CLICK_AIR || Action == org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK) {
+//            if (Item.getType() == ENDER_CHEST && Item.getItemMeta().getDisplayName().equalsIgnoreCase("Cosmetic Menu")) {
+//                CosmeticsMenu(event.getPlayer());
+//            } else if (gameManager.getGameState().equals(GameState.LOBBY) && Block.equals(STONE_BUTTON)) {
+//                CosmeticsMenu(event.getPlayer());
+//            } else if (gameManager.getGameState().equals(GameState.WAITING) && Block.equals(STONE_BUTTON)) {
+//                CosmeticsMenu(event.getPlayer());
+//            }
+//        }
+//    }
 
     @EventHandler
     public static void selectedButton(InventoryClickEvent event) throws MalformedURLException {
         if (!(event.getClickedInventory().getSize() == 54) && !(event.getClickedInventory().getSize() == 27)) return;
         Player player = (Player) event.getWhoClicked();
         event.setCancelled(true);
-        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || !event.getCurrentItem().hasItemMeta())
-            return;
+
+        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || !event.getCurrentItem().hasItemMeta()) return;
 
         if (event.getCurrentItem().getType() == Material.BARRIER && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.RED + "Back")) {
             String SelectedInventory = player.getOpenInventory().getTitle();
             if (SelectedInventory.equals(ChatColor.YELLOW + "Hats Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Suits Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Trails Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Particles Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Wins Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Kills Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Deaths Menu")) {
                 CosmeticsMenu(player);
-
             } else if (SelectedInventory.equals(ChatColor.YELLOW + "Red Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Orange Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Yellow Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Green Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Blue Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Purple Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Magenta Suit")){
                 SuitsMenu(player);
             }
         }
-
-
 
         if (event.getCurrentItem().getType() == Material.TURTLE_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.YELLOW + "Hats")) {
             HatsMenu(player);
@@ -76,25 +72,30 @@ public class CosmeticsMenuManager implements Listener {
         if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Red Suit")) {
             RedSuitMenu(player);
         }
+
         if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Orange Suit")) {
             OrangeSuitMenu(player);
         }
+
         if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Yellow Suit")) {
             YellowSuitMenu(player);
         }
+
         if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Green Suit")) {
             GreenSuitMenu(player);
         }
+
         if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Blue Suit")) {
             BlueSuitMenu(player);
         }
+
         if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Purple Suit")) {
             PurpleSuitMenu(player);
         }
+
         if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Magenta Suit")) {
             MagentaSuitMenu(player);
         }
-
 
         if (event.getCurrentItem().getType() == Material.ARROW && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.YELLOW + "Trails")) {
             TrailsMenu(player);
@@ -119,7 +120,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void CosmeticsMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Cosmetics menu");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Cosmetics menu");
 
         ItemStack Hats = MenuItemTemplate.makeItem(TURTLE_HELMET, ChatColor.YELLOW, "Hats");
         inventory.setItem(MenuEssentials.clacMenuPos(2,2), Hats);
@@ -148,7 +149,6 @@ public class CosmeticsMenuManager implements Listener {
         ItemStack Deaths = MenuItemTemplate.makeItem(SKELETON_SKULL, ChatColor.YELLOW, "Deaths");
         inventory.setItem(MenuEssentials.clacMenuPos(7,4), Deaths);
 
-
         // Essentials
 
         ItemStack Coins = MenuItemTemplate.coinItem();
@@ -157,9 +157,8 @@ public class CosmeticsMenuManager implements Listener {
         player.openInventory(inventory);
     }
 
-
     public static void HatsMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Hats Menu");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Hats Menu");
 
         //RedSuit Button
         ItemStack RedSuit = new ItemStack(Material.LEATHER_HELMET);
@@ -184,7 +183,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void SuitsMenu(Player player) throws MalformedURLException {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Suits Menu");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Suits Menu");
 
         ItemStack RedSuit = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Red Suit", Color.RED);
         inventory.setItem(MenuEssentials.clacMenuPos(2,2), RedSuit);
@@ -213,7 +212,6 @@ public class CosmeticsMenuManager implements Listener {
         ItemStack CalicoCatSuit = MenuItemTemplate.makePlayerHead("https://textures.minecraft.net/texture/53aceac5b24739ab6d890c962ef3569492510b5c248659c5a95c3a43645b1707", ChatColor.GREEN, "Calico Cat Suit");
         inventory.setItem(MenuEssentials.clacMenuPos(3,3), CalicoCatSuit);
 
-
         // Essentials
 
         ItemStack BackButton = MenuItemTemplate.backButton();
@@ -226,7 +224,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void RedSuitMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Red Suit");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Red Suit");
 
         ItemStack RedHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Red Helmet", Color.RED);
         inventory.setItem(MenuEssentials.clacMenuPos(3,2), RedHelmet);
@@ -258,7 +256,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void OrangeSuitMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Orange Suit");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Orange Suit");
 
         ItemStack OrangeHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Orange Helmet", Color.ORANGE);
         inventory.setItem(MenuEssentials.clacMenuPos(3,2), OrangeHelmet);
@@ -290,7 +288,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void YellowSuitMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Yellow Suit");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Yellow Suit");
 
         ItemStack YellowHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Yellow Helmet", Color.YELLOW);
         inventory.setItem(MenuEssentials.clacMenuPos(3,2), YellowHelmet);
@@ -321,7 +319,7 @@ public class CosmeticsMenuManager implements Listener {
         player.openInventory(inventory);
     }
     public static void GreenSuitMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Green Suit");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Green Suit");
 
         ItemStack GreenHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Green Helmet", Color.LIME);
         inventory.setItem(MenuEssentials.clacMenuPos(3,2), GreenHelmet);
@@ -353,7 +351,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void BlueSuitMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Blue Suit");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Blue Suit");
 
         ItemStack BlueHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Blue Helmet", Color.BLUE);
         inventory.setItem(MenuEssentials.clacMenuPos(3,2), BlueHelmet);
@@ -385,7 +383,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void PurpleSuitMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Purple Suit");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Purple Suit");
 
         ItemStack PurpleHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Purple Helmet", Color.PURPLE);
         inventory.setItem(MenuEssentials.clacMenuPos(3,2), PurpleHelmet);
@@ -417,7 +415,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void MagentaSuitMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Magenta Suit");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Magenta Suit");
 
         ItemStack MagentaHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Magenta Helmet", Color.FUCHSIA);
         inventory.setItem(MenuEssentials.clacMenuPos(3,2), MagentaHelmet);
@@ -450,7 +448,7 @@ public class CosmeticsMenuManager implements Listener {
 
 
     public static void TrailsMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Trails Menu");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Trails Menu");
 
         ItemStack RedSuit = MenuItemTemplate.makeLeatherArmour(LEATHER_LEGGINGS, ChatColor.GREEN, "Red Suit", Color.RED);
 
@@ -468,7 +466,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void ParticlesMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Particles Menu");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Particles Menu");
 
         //RedSuit Button
         ItemStack RedSuit = new ItemStack(Material.LEATHER_HELMET);
@@ -496,7 +494,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void WinsMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Wins Menu");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Wins Menu");
 
         //RedSuit Button
         ItemStack RedSuit = new ItemStack(Material.LEATHER_HELMET);
@@ -521,7 +519,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void KillsMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Wins Menu");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Wins Menu");
 
         //RedSuit Button
         ItemStack RedSuit = new ItemStack(Material.LEATHER_HELMET);
@@ -547,7 +545,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     public static void DeathsMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Deaths Menu");
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.YELLOW + "Deaths Menu");
 
         ItemStack DeathEffects = MenuItemTemplate.makeItem(TOTEM_OF_UNDYING, ChatColor.GREEN, "Death Effects");
         inventory.setItem(MenuEssentials.clacMenuPos(3,3), DeathEffects);

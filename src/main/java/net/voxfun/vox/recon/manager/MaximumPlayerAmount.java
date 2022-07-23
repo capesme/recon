@@ -8,7 +8,6 @@ public class MaximumPlayerAmount {
         maxPlayerAmount = 15;
     }
 
-
     public static Integer get() {
         return maxPlayerAmount;
     }

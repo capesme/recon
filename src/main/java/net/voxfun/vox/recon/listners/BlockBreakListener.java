@@ -14,8 +14,6 @@ public class BlockBreakListener implements Listener {
 
     @EventHandler
     private void onBlockBreak(BlockBreakEvent event) {
-        if (!gameManager.getBlockManager().canBreak(event.getBlock(), event.getPlayer())) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(!gameManager.getBlockManager().canBreak(event.getBlock(), event.getPlayer()));
     }
 }

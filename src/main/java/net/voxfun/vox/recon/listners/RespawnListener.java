@@ -47,7 +47,6 @@ public class RespawnListener implements Listener {
 
             Location Spawn = new Location(World, x, y, z);
 
-
             if (World.getNearbyEntities(Spawn, 1.5, 2.5 ,1.5).size() == 0) {
                 event.setRespawnLocation(new Location(Player.getWorld(), x, y, z));
                 return;

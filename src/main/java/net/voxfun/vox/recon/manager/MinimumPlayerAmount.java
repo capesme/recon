@@ -8,7 +8,6 @@ public class MinimumPlayerAmount {
         minPlayerAmount = 4;
     }
 
-
     public static Integer get() {
         return minPlayerAmount;
     }

@@ -37,7 +37,7 @@ public class PlayerMoveListener implements Listener {
         blockUnder.setY(blockUnder.getY() - 1);
         blockUnder2.setY(blockUnder2.getY() - 2);
 
-        if (blockUnder.getBlock().getType().equals(Material.BLACKSTONE_SLAB)  || blockUnder2.getBlock().getType().equals(Material.BLACKSTONE_SLAB) && !(gameManager.getGameState().equals(GameState.ACTIVE))) {
+        if (blockUnder.getBlock().getType().equals(Material.BLACKSTONE_SLAB) || blockUnder2.getBlock().getType().equals(Material.BLACKSTONE_SLAB) && !(gameManager.getGameState().equals(GameState.ACTIVE))) {
                 for (Player allPlayers : Bukkit.getOnlinePlayers()) {
                     player.getPlayer().hidePlayer(allPlayers);
                 }
