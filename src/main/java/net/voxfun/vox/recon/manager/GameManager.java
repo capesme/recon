@@ -42,6 +42,7 @@ public class GameManager {
     public static AimPraticeMinigame aimPraticeMinigame;
     public static RespawnOKTask respawnOKTask;
     public static DeathSoundTask deathSoundTask;
+    public static CosmeticsMenuManager cosmeticsMenuManager;
     public String activeGameId = null;
     private static Location lastLocation = null;
 

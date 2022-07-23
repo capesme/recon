@@ -15,6 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import java.util.Objects;
+
 import static org.bukkit.Material.*;
 
 public class CosmeticsMenuManager implements Listener {
@@ -26,12 +28,17 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     @EventHandler
-    public static void onClick(PlayerInteractEvent event) {
-        Action a = event.getAction();
-        ItemStack item = event.getItem();
-        if (a == Action.PHYSICAL || item == null || item.getType() == Material.AIR) return;
-        if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
-            if (item.getType() == ENDER_CHEST && item.getItemMeta().getDisplayName().equalsIgnoreCase("Cosmetic Menu")) {
+    public void onClick(PlayerInteractEvent event) {
+        Action Action = event.getAction();
+        Material Block = event.getMaterial();
+        ItemStack Item = event.getItem();
+        if (Action == Action.PHYSICAL || Item == null || Item.getType() == Material.AIR) return;
+        if (Action == Action.RIGHT_CLICK_AIR || Action == Action.RIGHT_CLICK_BLOCK) {
+            if (Item.getType() == ENDER_CHEST && Item.getItemMeta().getDisplayName().equalsIgnoreCase("Cosmetic Menu")) {
+                CosmeticsMenu(event.getPlayer());
+            } else if (gameManager.getGameState().equals(GameState.LOBBY) && Block.equals(STONE_BUTTON)) {
+                CosmeticsMenu(event.getPlayer());
+            } else if (gameManager.getGameState().equals(GameState.WAITING) && Block.equals(STONE_BUTTON)) {
                 CosmeticsMenu(event.getPlayer());
             }
         }
@@ -47,10 +54,12 @@ public class CosmeticsMenuManager implements Listener {
 
         if (event.getCurrentItem().getType() == Material.BARRIER && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.RED + "Back")) {
             String SelectedInventory = player.getOpenInventory().getTitle();
-            if (SelectedInventory.equals(ChatColor.YELLOW + "Hats Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Suits Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Trails Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Particles Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Wins Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Kills Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Deaths Menu") ) {
+            if (SelectedInventory.equals(ChatColor.YELLOW + "Hats Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Suits Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Trails Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Particles Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Wins Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Kills Menu") || SelectedInventory.equals(ChatColor.YELLOW + "Deaths Menu")) {
                 CosmeticsMenu(player);
-            } else if (SelectedInventory.equals(ChatColor.YELLOW + "Red Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Orange Suit"));
-            SuitsMenu(player);
+
+            } else if (SelectedInventory.equals(ChatColor.YELLOW + "Red Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Orange Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Yellow Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Green Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Blue Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Purple Suit") || SelectedInventory.equals(ChatColor.YELLOW + "Magenta Suit")){
+                SuitsMenu(player);
+            }
         }
 
 
@@ -69,6 +78,22 @@ public class CosmeticsMenuManager implements Listener {
         if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Orange Suit")) {
             OrangeSuitMenu(player);
         }
+        if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Yellow Suit")) {
+            YellowSuitMenu(player);
+        }
+        if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Green Suit")) {
+            GreenSuitMenu(player);
+        }
+        if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Blue Suit")) {
+            BlueSuitMenu(player);
+        }
+        if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Purple Suit")) {
+            PurpleSuitMenu(player);
+        }
+        if (event.getCurrentItem().getType() == Material.LEATHER_HELMET && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Magenta Suit")) {
+            MagentaSuitMenu(player);
+        }
+
 
         if (event.getCurrentItem().getType() == Material.ARROW && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.YELLOW + "Trails")) {
             TrailsMenu(player);
@@ -181,6 +206,7 @@ public class CosmeticsMenuManager implements Listener {
         ItemStack MagentaSuit = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Magenta Suit", Color.FUCHSIA);
         inventory.setItem(MenuEssentials.clacMenuPos(8,2), MagentaSuit);
 
+
         // Essentials
 
         ItemStack BackButton = MenuItemTemplate.backButton();
@@ -207,6 +233,12 @@ public class CosmeticsMenuManager implements Listener {
         ItemStack RedBoots = MenuItemTemplate.makeLeatherArmour(LEATHER_BOOTS, ChatColor.GREEN, "Red Boots", Color.RED);
         inventory.setItem(MenuEssentials.clacMenuPos(7,2), RedBoots);
 
+        ItemStack ResetSuitButton = MenuItemTemplate.makeItem(LAVA_BUCKET, ChatColor.RED, "Reset Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(4,4), ResetSuitButton);
+
+        ItemStack EquipFullSuitButton = MenuItemTemplate.makeItem(LEATHER, ChatColor.YELLOW, "Equip Full Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(6,4), EquipFullSuitButton);
+
         // Essentials
 
         ItemStack BackButton = MenuItemTemplate.backButton();
@@ -221,17 +253,23 @@ public class CosmeticsMenuManager implements Listener {
     public static void OrangeSuitMenu(Player player) {
         Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Orange Suit");
 
-        ItemStack OrangeHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Red Helmet", Color.ORANGE);
+        ItemStack OrangeHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Orange Helmet", Color.ORANGE);
         inventory.setItem(MenuEssentials.clacMenuPos(3,2), OrangeHelmet);
 
-        ItemStack OrangeTunic = MenuItemTemplate.makeLeatherArmour(LEATHER_CHESTPLATE, ChatColor.GREEN, "Red Chestplate", Color.ORANGE);
+        ItemStack OrangeTunic = MenuItemTemplate.makeLeatherArmour(LEATHER_CHESTPLATE, ChatColor.GREEN, "Orange Chestplate", Color.ORANGE);
         inventory.setItem(MenuEssentials.clacMenuPos(4,2), OrangeTunic);
 
-        ItemStack OrangeLeggins = MenuItemTemplate.makeLeatherArmour(LEATHER_LEGGINGS, ChatColor.GREEN, "Red Leggings", Color.ORANGE);
+        ItemStack OrangeLeggins = MenuItemTemplate.makeLeatherArmour(LEATHER_LEGGINGS, ChatColor.GREEN, "Orange Leggings", Color.ORANGE);
         inventory.setItem(MenuEssentials.clacMenuPos(6,2), OrangeLeggins);
 
-        ItemStack OrangeBoots = MenuItemTemplate.makeLeatherArmour(LEATHER_BOOTS, ChatColor.GREEN, "Red Boots", Color.ORANGE);
+        ItemStack OrangeBoots = MenuItemTemplate.makeLeatherArmour(LEATHER_BOOTS, ChatColor.GREEN, "Orange Boots", Color.ORANGE);
         inventory.setItem(MenuEssentials.clacMenuPos(7,2), OrangeBoots);
+
+        ItemStack ResetSuitButton = MenuItemTemplate.makeItem(LAVA_BUCKET, ChatColor.RED, "Reset Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(4,4), ResetSuitButton);
+
+        ItemStack EquipFullSuitButton = MenuItemTemplate.makeItem(LEATHER, ChatColor.YELLOW, "Equip Full Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(6,4), EquipFullSuitButton);
 
         // Essentials
 
@@ -243,6 +281,166 @@ public class CosmeticsMenuManager implements Listener {
 
         player.openInventory(inventory);
     }
+
+    public static void YellowSuitMenu(Player player) {
+        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Yellow Suit");
+
+        ItemStack YellowHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Yellow Helmet", Color.YELLOW);
+        inventory.setItem(MenuEssentials.clacMenuPos(3,2), YellowHelmet);
+
+        ItemStack YellowTunic = MenuItemTemplate.makeLeatherArmour(LEATHER_CHESTPLATE, ChatColor.GREEN, "Yellow Chestplate", Color.YELLOW);
+        inventory.setItem(MenuEssentials.clacMenuPos(4,2), YellowTunic);
+
+        ItemStack YellowLeggings = MenuItemTemplate.makeLeatherArmour(LEATHER_LEGGINGS, ChatColor.GREEN, "Yellow Leggings", Color.YELLOW);
+        inventory.setItem(MenuEssentials.clacMenuPos(6,2), YellowLeggings);
+
+        ItemStack YellowBoots = MenuItemTemplate.makeLeatherArmour(LEATHER_BOOTS, ChatColor.GREEN, "Yellow Boots", Color.YELLOW);
+        inventory.setItem(MenuEssentials.clacMenuPos(7,2), YellowBoots);
+
+        ItemStack ResetSuitButton = MenuItemTemplate.makeItem(LAVA_BUCKET, ChatColor.RED, "Reset Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(4,4), ResetSuitButton);
+
+        ItemStack EquipFullSuitButton = MenuItemTemplate.makeItem(LEATHER, ChatColor.YELLOW, "Equip Full Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(6,4), EquipFullSuitButton);
+
+        // Essentials
+
+        ItemStack BackButton = MenuItemTemplate.backButton();
+        inventory.setItem(MenuEssentials.clacMenuPos(4,6), BackButton);
+
+        ItemStack Coins = MenuItemTemplate.coinItem();
+        inventory.setItem(MenuEssentials.clacMenuPos(5,6), Coins);
+
+        player.openInventory(inventory);
+    }
+    public static void GreenSuitMenu(Player player) {
+        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Green Suit");
+
+        ItemStack GreenHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Green Helmet", Color.LIME);
+        inventory.setItem(MenuEssentials.clacMenuPos(3,2), GreenHelmet);
+
+        ItemStack GreenTunic = MenuItemTemplate.makeLeatherArmour(LEATHER_CHESTPLATE, ChatColor.GREEN, "Green Chestplate", Color.LIME);
+        inventory.setItem(MenuEssentials.clacMenuPos(4,2), GreenTunic);
+
+        ItemStack GreenLeggings = MenuItemTemplate.makeLeatherArmour(LEATHER_LEGGINGS, ChatColor.GREEN, "Green Leggings", Color.LIME);
+        inventory.setItem(MenuEssentials.clacMenuPos(6,2), GreenLeggings);
+
+        ItemStack GreenBoots = MenuItemTemplate.makeLeatherArmour(LEATHER_BOOTS, ChatColor.GREEN, "Green Boots", Color.LIME);
+        inventory.setItem(MenuEssentials.clacMenuPos(7,2), GreenBoots);
+
+        ItemStack ResetSuitButton = MenuItemTemplate.makeItem(LAVA_BUCKET, ChatColor.RED, "Reset Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(4,4), ResetSuitButton);
+
+        ItemStack EquipFullSuitButton = MenuItemTemplate.makeItem(LEATHER, ChatColor.YELLOW, "Equip Full Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(6,4), EquipFullSuitButton);
+
+        // Essentials
+
+        ItemStack BackButton = MenuItemTemplate.backButton();
+        inventory.setItem(MenuEssentials.clacMenuPos(4,6), BackButton);
+
+        ItemStack Coins = MenuItemTemplate.coinItem();
+        inventory.setItem(MenuEssentials.clacMenuPos(5,6), Coins);
+
+        player.openInventory(inventory);
+    }
+
+    public static void BlueSuitMenu(Player player) {
+        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Blue Suit");
+
+        ItemStack BlueHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Blue Helmet", Color.BLUE);
+        inventory.setItem(MenuEssentials.clacMenuPos(3,2), BlueHelmet);
+
+        ItemStack BlueTunic = MenuItemTemplate.makeLeatherArmour(LEATHER_CHESTPLATE, ChatColor.GREEN, "Blue Chestplate", Color.BLUE);
+        inventory.setItem(MenuEssentials.clacMenuPos(4,2), BlueTunic);
+
+        ItemStack BlueLeggings = MenuItemTemplate.makeLeatherArmour(LEATHER_LEGGINGS, ChatColor.GREEN, "Blue Leggings", Color.BLUE);
+        inventory.setItem(MenuEssentials.clacMenuPos(6,2), BlueLeggings);
+
+        ItemStack BlueBoots = MenuItemTemplate.makeLeatherArmour(LEATHER_BOOTS, ChatColor.GREEN, "Blue Boots", Color.BLUE);
+        inventory.setItem(MenuEssentials.clacMenuPos(7,2), BlueBoots);
+
+        ItemStack ResetSuitButton = MenuItemTemplate.makeItem(LAVA_BUCKET, ChatColor.RED, "Reset Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(4,4), ResetSuitButton);
+
+        ItemStack EquipFullSuitButton = MenuItemTemplate.makeItem(LEATHER, ChatColor.YELLOW, "Equip Full Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(6,4), EquipFullSuitButton);
+
+        // Essentials
+
+        ItemStack BackButton = MenuItemTemplate.backButton();
+        inventory.setItem(MenuEssentials.clacMenuPos(4,6), BackButton);
+
+        ItemStack Coins = MenuItemTemplate.coinItem();
+        inventory.setItem(MenuEssentials.clacMenuPos(5,6), Coins);
+
+        player.openInventory(inventory);
+    }
+
+    public static void PurpleSuitMenu(Player player) {
+        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Purple Suit");
+
+        ItemStack PurpleHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Purple Helmet", Color.PURPLE);
+        inventory.setItem(MenuEssentials.clacMenuPos(3,2), PurpleHelmet);
+
+        ItemStack PurpleTunic = MenuItemTemplate.makeLeatherArmour(LEATHER_CHESTPLATE, ChatColor.GREEN, "Purple Chestplate", Color.PURPLE);
+        inventory.setItem(MenuEssentials.clacMenuPos(4,2), PurpleTunic);
+
+        ItemStack PurpleLeggings = MenuItemTemplate.makeLeatherArmour(LEATHER_LEGGINGS, ChatColor.GREEN, "Purple Leggings", Color.PURPLE);
+        inventory.setItem(MenuEssentials.clacMenuPos(6,2), PurpleLeggings);
+
+        ItemStack PurpleBoots = MenuItemTemplate.makeLeatherArmour(LEATHER_BOOTS, ChatColor.GREEN, "Purple Boots", Color.PURPLE);
+        inventory.setItem(MenuEssentials.clacMenuPos(7,2), PurpleBoots);
+
+        ItemStack ResetSuitButton = MenuItemTemplate.makeItem(LAVA_BUCKET, ChatColor.RED, "Reset Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(4,4), ResetSuitButton);
+
+        ItemStack EquipFullSuitButton = MenuItemTemplate.makeItem(LEATHER, ChatColor.YELLOW, "Equip Full Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(6,4), EquipFullSuitButton);
+
+        // Essentials
+
+        ItemStack BackButton = MenuItemTemplate.backButton();
+        inventory.setItem(MenuEssentials.clacMenuPos(4,6), BackButton);
+
+        ItemStack Coins = MenuItemTemplate.coinItem();
+        inventory.setItem(MenuEssentials.clacMenuPos(5,6), Coins);
+
+        player.openInventory(inventory);
+    }
+
+    public static void MagentaSuitMenu(Player player) {
+        Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Magenta Suit");
+
+        ItemStack MagentaHelmet = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Magenta Helmet", Color.FUCHSIA);
+        inventory.setItem(MenuEssentials.clacMenuPos(3,2), MagentaHelmet);
+
+        ItemStack MagentaTunic = MenuItemTemplate.makeLeatherArmour(LEATHER_CHESTPLATE, ChatColor.GREEN, "Magenta Chestplate", Color.FUCHSIA);
+        inventory.setItem(MenuEssentials.clacMenuPos(4,2), MagentaTunic);
+
+        ItemStack MagentaLeggings = MenuItemTemplate.makeLeatherArmour(LEATHER_LEGGINGS, ChatColor.GREEN, "Magenta Leggings", Color.FUCHSIA);
+        inventory.setItem(MenuEssentials.clacMenuPos(6,2), MagentaLeggings);
+
+        ItemStack MagentaBoots = MenuItemTemplate.makeLeatherArmour(LEATHER_BOOTS, ChatColor.GREEN, "Magenta Boots", Color.FUCHSIA);
+        inventory.setItem(MenuEssentials.clacMenuPos(7,2), MagentaBoots);
+
+        ItemStack ResetSuitButton = MenuItemTemplate.makeItem(LAVA_BUCKET, ChatColor.RED, "Reset Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(4,4), ResetSuitButton);
+
+        ItemStack EquipFullSuitButton = MenuItemTemplate.makeItem(LEATHER, ChatColor.YELLOW, "Equip Full Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(6,4), EquipFullSuitButton);
+
+        // Essentials
+
+        ItemStack BackButton = MenuItemTemplate.backButton();
+        inventory.setItem(MenuEssentials.clacMenuPos(4,6), BackButton);
+
+        ItemStack Coins = MenuItemTemplate.coinItem();
+        inventory.setItem(MenuEssentials.clacMenuPos(5,6), Coins);
+
+        player.openInventory(inventory);
+    }
+
 
     public static void TrailsMenu(Player player) {
         Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Trails Menu");
