@@ -2,6 +2,7 @@ package net.voxfun.vox.recon.commands;
 
 import net.voxfun.vox.recon.manager.CosmeticsMenuManager;
 import net.voxfun.vox.recon.manager.GameManager;
+import net.voxfun.vox.recon.manager.MenuEssentials;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
