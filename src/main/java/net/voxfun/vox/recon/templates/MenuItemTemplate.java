@@ -1,14 +1,24 @@
 package net.voxfun.vox.recon.templates;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Base64;
+import java.util.UUID;
 
 public class MenuItemTemplate {
 
@@ -23,6 +33,28 @@ public class MenuItemTemplate {
 
         ItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         ItemMeta.addItemFlags(ItemFlag.HIDE_DYE);
+        ItemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        Item.setItemMeta(ItemMeta);
+
+        return Item;
+    }
+
+    public static ItemStack makePlayerHead(String SkinURL, ChatColor NameColour, String ItemName) throws MalformedURLException {
+
+        ItemStack Item = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta ItemMeta = (SkullMeta) Item.getItemMeta();
+
+        PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerTextures textures = profile.getTextures();
+        textures.setSkin(new URL(SkinURL));
+        ItemMeta.setOwnerProfile(profile);
+        ItemMeta.setDisplayName(NameColour + ItemName);
+
+        ItemMeta.setUnbreakable(true);
+        ItemMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("NoArmourToughness", -40, AttributeModifier.Operation.ADD_NUMBER));
+
+        ItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         ItemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 
         Item.setItemMeta(ItemMeta);

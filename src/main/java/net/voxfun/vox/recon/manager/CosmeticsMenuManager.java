@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import java.net.MalformedURLException;
 import java.util.Objects;
 
 import static org.bukkit.Material.*;
@@ -45,7 +46,7 @@ public class CosmeticsMenuManager implements Listener {
     }
 
     @EventHandler
-    public static void selectedButton(InventoryClickEvent event) {
+    public static void selectedButton(InventoryClickEvent event) throws MalformedURLException {
         if (!(event.getClickedInventory().getSize() == 54) && !(event.getClickedInventory().getSize() == 27)) return;
         Player player = (Player) event.getWhoClicked();
         event.setCancelled(true);
@@ -182,7 +183,7 @@ public class CosmeticsMenuManager implements Listener {
         player.openInventory(inventory);
     }
 
-    public static void SuitsMenu(Player player) {
+    public static void SuitsMenu(Player player) throws MalformedURLException {
         Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 54, ChatColor.YELLOW + "Suits Menu");
 
         ItemStack RedSuit = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Red Suit", Color.RED);
@@ -205,6 +206,12 @@ public class CosmeticsMenuManager implements Listener {
 
         ItemStack MagentaSuit = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Magenta Suit", Color.FUCHSIA);
         inventory.setItem(MenuEssentials.clacMenuPos(8,2), MagentaSuit);
+
+        ItemStack RainbowSuit = MenuItemTemplate.makeLeatherArmour(LEATHER_HELMET, ChatColor.GREEN, "Rainbow Suit", Color.RED);
+        inventory.setItem(MenuEssentials.clacMenuPos(2,3), RainbowSuit);
+
+        ItemStack CalicoCatSuit = MenuItemTemplate.makePlayerHead("https://textures.minecraft.net/texture/53aceac5b24739ab6d890c962ef3569492510b5c248659c5a95c3a43645b1707", ChatColor.GREEN, "Calico Cat Suit");
+        inventory.setItem(MenuEssentials.clacMenuPos(3,3), CalicoCatSuit);
 
 
         // Essentials
