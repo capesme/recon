@@ -6,6 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import net.voxfun.vox.recon.commands.*;
 import net.voxfun.vox.recon.listners.*;
 import net.voxfun.vox.recon.manager.*;
+import net.voxfun.vox.recon.templates.NPCTemplate;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;

@@ -4,12 +4,16 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
 import net.voxfun.vox.recon.index;
 import net.voxfun.vox.recon.listners.DamagedListener;
 import net.voxfun.vox.recon.mod.FormatBroadcast;
 import net.voxfun.vox.recon.mod.GenerateId;
 import net.voxfun.vox.recon.tasks.*;
 import net.voxfun.vox.recon.tasks.cosmetic.DeathSoundTask;
+
+import net.voxfun.vox.recon.templates.ItemstackTemplate;
+import net.voxfun.vox.recon.templates.NPCTemplate;
 import org.bson.Document;
 import org.bson.json.JsonObject;
 import org.bson.types.ObjectId;
@@ -42,13 +46,16 @@ public class GameManager {
     public static AimPraticeMinigame aimPraticeMinigame;
     public static RespawnOKTask respawnOKTask;
     public static DeathSoundTask deathSoundTask;
-    public static CosmeticsMenuManager cosmeticsMenuManager;
+    public static ItemstackTemplate itemstackTemplate;
+    public static NPCTemplate npcTemplate;
+    public static NPCManager npcManager;
     public String activeGameId = null;
     private static Location lastLocation = null;
 
     public GameManager(index plugin) {
         this.plugin = plugin;
         this.blockManager = new BlockManager(this);
+        npcManager = new NPCManager(this);
         playerManager = new PlayerManager(this);
         this.damagedListener = new DamagedListener(this);
     }
