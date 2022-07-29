@@ -4,6 +4,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.voxfun.vox.recon.listners.NPC;
 import net.voxfun.vox.recon.manager.CosmeticsMenuManager;
 import net.voxfun.vox.recon.manager.GameManager;
+import net.voxfun.vox.recon.manager.NPCManager;
 import net.voxfun.vox.recon.templates.NPCTemplate;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -22,6 +23,7 @@ public class CosmeticsMenu implements CommandExecutor {
         Location PlayerLocation = ((Player) Player).getLocation();
 
         ServerPlayer npc = NPCTemplate.createNPC((org.bukkit.entity.Player) Player, true, PlayerLocation);
+        NPCTemplate.playDead(npc, PlayerLocation);
 
         return true;
     }

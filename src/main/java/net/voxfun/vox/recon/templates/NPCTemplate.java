@@ -2,6 +2,8 @@ package net.voxfun.vox.recon.templates;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Position;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -17,14 +19,15 @@ import net.minecraft.world.scores.Team;
 import net.voxfun.vox.recon.index;
 import net.voxfun.vox.recon.listners.NPC;
 import net.voxfun.vox.recon.manager.GameManager;
-import net.voxfun.vox.recon.manager.NPCManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 public class NPCTemplate {
@@ -36,11 +39,11 @@ public class NPCTemplate {
         this.gameManager = gameManager;
     }
 
-    private static int Timer = 20;
+    private static final int Timer = 20;
 
     public static ServerPlayer createNPC(Player Player, boolean showAllPlayers, Location Position) {
 
-        Timer = 20;
+        Timer Timer = new Timer();
 
         CraftPlayer craftPlayer = (CraftPlayer) Player;
         MinecraftServer Server = craftPlayer.getHandle().getServer();
@@ -66,6 +69,8 @@ public class NPCTemplate {
 
 
         npc.setPos(Position.getX(), (Position.getY()), Position.getZ());
+        npc.setYBodyRot(Player.getFacing().getDirection().angle(new Vector()));
+        npc.setYRot(20);
 
         if (showAllPlayers) {
             Bukkit.getOnlinePlayers().forEach(allPlayers -> {
@@ -75,9 +80,17 @@ public class NPCTemplate {
 
                 packetServer.send(ClientboundSetPlayerTeamPacket.createRemovePacket(hideNameTeam));
                 packetServer.send(ClientboundSetPlayerTeamPacket.createAddOrModifyPacket(hideNameTeam, true));
-                
-                packetServer.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, npc));
-                
+                TimerTask timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        packetServer.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, npc));
+
+                    }
+                };
+
+                Timer.schedule(timerTask, 2000);
+
+
                 packetServer.send(new ClientboundSetEntityDataPacket(npc.getId(), npc.getEntityData(), true));
                 packetServer.send(new ClientboundSetEntityDataPacket(npc.getId(), dataWatcher, true));
             });
@@ -87,27 +100,30 @@ public class NPCTemplate {
             packetServer.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, npc));
             packetServer.send(new ClientboundAddPlayerPacket(npc));
 
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    packetServer.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, npc));
+
+                }
+            };
+
+            Timer.schedule(timerTask, 2000);
+
             packetServer.send(new ClientboundSetEntityDataPacket(npc.getId(), npc.getEntityData(), true));
             packetServer.send(new ClientboundSetEntityDataPacket(npc.getId(), dataWatcher, true));
 
             packetServer.send(ClientboundSetPlayerTeamPacket.createRemovePacket(hideNameTeam));
             packetServer.send(ClientboundSetPlayerTeamPacket.createAddOrModifyPacket(hideNameTeam, true));
 
-            while (Timer > 0) {
-                Timer--;
-            }
-            if (Timer == 0) {
-                packetServer.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, npc));
-            }
+
+            NPC NPC = new NPC();
+            NPC.setNpc(npc);
+            NPC.setPlayer((Player).getUniqueId());
+            GameManager.npcManager.getNPCs().add(NPC);
+
         }
-
-        NPC NPC = new NPC();
-        NPC.setNpc(npc);
-        NPC.setPlayer((Player).getUniqueId());
-        GameManager.npcManager.getNPCs().add(NPC);
-
         return npc;
-
     }
 
 
@@ -130,11 +146,12 @@ public class NPCTemplate {
         }
     }
 
-    public static void playDead(ServerPlayer npc, Location Location) {
+    public static void playDead(ServerPlayer npc, Location RealLocation) {
         npc.setPose(Pose.SLEEPING);
-        npc.setPos(Location.getX(), (Location.getY()  + 1), Location.getZ());
-        npc.setYRot(Location.getYaw());
-        npc.setXRot(Location.getPitch());
+        Location Location = new Location(RealLocation.getWorld(), RealLocation.getX(), (RealLocation.getY()  + 1), RealLocation.getZ());
+        BlockPos blockPos = new BlockPos((Position) Location);
+
+        npc.startSleepInBed(blockPos);
 
             Bukkit.getOnlinePlayers().forEach(allPlayers -> {
                 ServerGamePacketListenerImpl packetServer = ((CraftPlayer) allPlayers).getHandle().connection;
