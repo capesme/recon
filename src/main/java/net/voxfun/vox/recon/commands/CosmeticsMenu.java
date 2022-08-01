@@ -4,6 +4,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.voxfun.vox.recon.listners.NPC;
 import net.voxfun.vox.recon.manager.CosmeticsMenuManager;
 import net.voxfun.vox.recon.manager.GameManager;
+import net.voxfun.vox.recon.manager.GameState;
 import net.voxfun.vox.recon.manager.NPCManager;
 import net.voxfun.vox.recon.templates.NPCTemplate;
 import org.bukkit.Location;
@@ -18,13 +19,14 @@ public class CosmeticsMenu implements CommandExecutor {
     public CosmeticsMenu(GameManager gameManager) { this.gameManager = gameManager; }
     @Override
     public boolean onCommand(CommandSender Player, Command command, String label, String[] args) {
-        CosmeticsMenuManager.CosmeticsMenu((Player) Player);
 
-        Location PlayerLocation = ((Player) Player).getLocation();
+        if (gameManager.getGameState().equals(GameState.LOBBY) || gameManager.getGameState().equals(GameState.STARTING)) {
+            CosmeticsMenuManager.CosmeticsMenu((Player) Player);
 
-        ServerPlayer npc = NPCTemplate.createNPC((org.bukkit.entity.Player) Player, true, PlayerLocation);
-        NPCTemplate.playDead(npc, PlayerLocation);
+            Location PlayerLocation = ((Player) Player).getLocation();
 
+            NPCTemplate.createNPC(((org.bukkit.entity.Player) Player).getPlayer(), true, PlayerLocation);
+        }
         return true;
     }
 }

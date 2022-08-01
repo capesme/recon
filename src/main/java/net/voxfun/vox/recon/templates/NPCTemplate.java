@@ -49,7 +49,7 @@ public class NPCTemplate {
         MinecraftServer Server = craftPlayer.getHandle().getServer();
         ServerLevel Level = craftPlayer.getHandle().getLevel();
 
-        GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "");
+        GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "sp614x");
         GameProfile playerProfile = craftPlayer.getHandle().getGameProfile();
 
         Property skinProperty = (Property) playerProfile.getProperties().get("textures").toArray()[0];
@@ -116,12 +116,6 @@ public class NPCTemplate {
             packetServer.send(ClientboundSetPlayerTeamPacket.createRemovePacket(hideNameTeam));
             packetServer.send(ClientboundSetPlayerTeamPacket.createAddOrModifyPacket(hideNameTeam, true));
 
-
-            NPC NPC = new NPC();
-            NPC.setNpc(npc);
-            NPC.setPlayer((Player).getUniqueId());
-            GameManager.npcManager.getNPCs().add(NPC);
-
         }
         return npc;
     }
@@ -134,15 +128,6 @@ public class NPCTemplate {
                 packetServer.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, npc));
                 packetServer.send(new ClientboundRemoveEntitiesPacket(npc.getId()));
             });
-
-            NPC NPC = new NPC();
-            NPC.getNpc();
-            NPC.getPlayer();
-
-            GameManager.npcManager.getNPCs().remove(NPC);
-
-        } else {
-
         }
     }
 
